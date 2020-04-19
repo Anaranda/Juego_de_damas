@@ -1,7 +1,14 @@
+//Prueba para ver si se sincroniza
+
+
+
+
+
+
 #include "Ficha.h"
-#include "glut.h"
 #include<math.h>
 #include <iostream>
+#include "glut.h"
 
 #define M 8
 #define PX_X  800
