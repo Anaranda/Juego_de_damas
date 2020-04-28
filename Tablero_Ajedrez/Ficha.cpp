@@ -1,10 +1,3 @@
-//Prueba para ver si se sincroniza
-
-
-
-
-
-
 #include "Ficha.h"
 #include<math.h>
 #include <iostream>
