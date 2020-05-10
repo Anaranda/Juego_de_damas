@@ -16,6 +16,8 @@ public:
 	virtual void SetPos(float ix, float iy);
 	virtual int GetPosX();
 	virtual int GetPosY();
+	virtual Color GetColor();
+	virtual Tipo GetTipo();
 
 	virtual void Dibuja();
 };

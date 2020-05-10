@@ -1,7 +1,8 @@
 #include "Tablero.h"
 #include "Ficha.h"
-#include "ListaPeones.h"
 #include <iostream>
+
+using namespace std;
 
 #define M 8
 #define PX_X  800
@@ -18,50 +19,12 @@ Tablero::Tablero()
 	seleccionada = false;
 }
 
-//void Tablero::dibuja()
-//{
-//	//peones.dibuja();
-//}
+
 
 void Tablero::Inicializa()
 {
 	fichas.inicializa();
 
-
-	//Se dibuja el tablero en su posición de comienzo de juego
-	//Se considera que la esquina inferior izquierda y la superior derecha es negra y se juega sobre negras
-	//Se considera piezas blancas abajo y rojas arriba
-
-	//for (int i = 0; i < M; i++)
-	//{
-	//	for (int j = 0; j < M; j++)
-	//	{
-	//		tablero[i][j].SetTipo(PEON); //inicialmente todas las fichas son peones
-
-	//		if ((i + j) % 2 != 0) //Si el resto de dividir (i+j) entre 2 es distinto de 0, es decir, es IMPAR: estamos sobre cuadrado negro (donde se mueven las fichas)
-	//		{
-
-	//			if (i < 3) //estamos en las 3 primeras filas ¡¡¡¡SOLO VALIDO PARA TABLERO 8X8!!!!!
-	//			{
-	//				tablero[i][j].SetEstado(OCUPADO);
-	//				tablero[i][j].SetColor(ROJO); //La pieza es roja
-	//				tablero[i][j].DibujaFicha(i, j); //Dibujamos la ficha 
-	//			}
-
-	//			else if (i > 4) //estamos en las últimas 3 filas ¡¡¡¡SOLO VALIDO PARA TABLERO 8X8!!!!!
-	//			{
-	//				tablero[i][j].SetEstado(OCUPADO);
-	//				tablero[i][j].SetColor(BLANCO); //la pieza es blanca
-	//				tablero[i][j].DibujaFicha(i, j); //Dibujamos la ficha 
-	//			}
-
-	//		}
-	//		else
-	//		{
-	//			tablero[i][j].SetEstado(VACIO); // Si está sobre cuadrados blancos pone la ficha como VACIO
-	//		}
-	//	}
-	//}
 }
 
 void Tablero::DibujaTablero()
@@ -72,23 +35,6 @@ void Tablero::DibujaTablero()
 		estado_inicial = false;
 	}
 	fichas.dibuja();
-	////Dibuja el tablero llamando a la función DibujaFicha() al recorrer cada posición del tablero
-	//for (int i = 0; i < M; i++)
-	//{
-	//	for (int j = 0; j < M; j++)
-	//	{
-	//		//if (!&tablero[i][j]) //Si la dirección que contiene es distinto de 0 (NULL)
-	//		//{
-	//		//	tablero[i][j].DibujaFicha(i, j);
-	//		//}
-
-	//		if (tablero[i][j].GetEstado()) //si el estado es ocupado (1) 
-	//		{
-	//			tablero[i][j].DibujaFicha(i, j); //dibuja la ficha 
-	//		}
-	//	}
-	//}
-
 }
 
 void Tablero::TexturaTablero()
@@ -107,90 +53,608 @@ void Tablero::TexturaTablero()
 
 void Tablero::SelecFicha(int button, int state, int mouseX, int mouseY)
 {
-	//	
-	//	//enum Turno { blancas, rojas };
-	//	//Turno turno;
-	//	
-	//	Color ficha_selec;
-	//	Color color_turno;
-	//	int v_abs[2];
-	//	int impar;
-	//	
-	//
-	//	if (turno == rojas) {
-	//		color_turno=ROJO;
-	//	} else color_turno = BLANCO;
-	//
-	//
-	//	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-	//	{
-	//		pos[1] = trunc(mouseX / (PX_X / M)); // el eje x corresponde con el indice j (COLUMNAS)
-	//		pos[0] = trunc(mouseY / (PX_Y / M)); //el eje y corresponde con el indice i (FILAS)
-	//		impar = (pos[1] + pos[0]) % 2; //COMPRUEBA SI LA CASILLA ES NEGRA, PARA PERMITIR O NO LA COLOCACION DE LA FICHA
-	//
-	//		
-	//
-	//		if (tablero[pos[0]][pos[1]].GetEstado() == OCUPADO && seleccionada==false)	// seleccionas una ficha de tu color cuando sea tu turno	
-	//		{
-	//			ficha_selec = tablero[pos[0]][pos[1]].GetColor();		// Se guarda el color de la ficha seleccionada
-	//			if (ficha_selec == color_turno) {						//Ha seleccionado una de sus fichas
-	//				tablero[pos[0]][pos[1]].SetColor(VERDE);			//Se pone de color verde
-	//				seleccionada = true;								
-	//				pos_verde[0] = pos[0];								//guardamos la posicion donde esta la ficha verde
-	//				pos_verde[1] = pos[1];
-	//				
-	//			}
-	//						
-	//		}
-	//
-	//		
-	//		if (tablero[pos[0]][pos[1]].GetEstado() == VACIO && seleccionada && impar != 0)								//si la mueves a una casilla vacia
-	//		{
-	//
-	//
-	//			v_abs[1] = abs(pos[1] - pos_verde[1]);// GUARDA EN UN VECTOR DE DOS COORDENADAS LOS VALORES DEL V. ABS DE LA RESTA DE LA POSICION ACTUAL CON LA POSTERIOR. ASI QUEDA RESTRINGIDO EL MOVIMIENTO A DOS UNIDADES MAX.
-	//			v_abs[0] = abs(pos[0] - pos_verde[0]);// GUARDA EN UN VECTOR DE DOS COORDENADAS LOS VALORES DEL V. ABS DE LA RESTA DE LA POSICION ACTUAL CON LA POSTERIOR. ASI QUEDA RESTRINGIDO EL MOVIMIENTO A DOS UNIDADES MAX.
-	//
-	//			if (pos_verde[0] < pos[0] && v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == ROJO) {	// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
-	//
-	//				tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
-	//				tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
-	//				tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
-	//				seleccionada = false;
-	//			}
-	//
-	//			else if (pos_verde[0] > pos[0] && v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == BLANCO) {// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
-	//
-	//				tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
-	//				tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
-	//				tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
-	//				seleccionada = false;
-	//
-	//			}
-	//			else { //EN CASO DE ERROR EN EL NUMERO DE UNIDADES QUE QUEREMOS MOVERNOS, O EN CASO DE QUERER IR HACIA ATRAS, NOS MANDA A REPETIR EL MOVIMIENTO.
-	//				turno_fallido = true;
-	//				seleccionada = false;
-	//				tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
-	//
-	//			}
-	//
-	//			if (turno_fallido == false) {
-	//
-	//				if (turno == rojas) turno = blancas;														//cambiamos el turno
-	//				else turno = rojas;
-	//			}
-	//
-	//
-	//			else { // NOS PERMITE REPETIR EL MOVIMIENTO, YA QUE EL TURNO NO CAMBIA
-	//				if (turno == rojas) turno = rojas;
-	//				else turno = blancas;
-	//				turno_fallido = false;
-	//			}
-	//
-	//		}
-	//	}
-	//
-	//	
+	//Color ficha_selec;
+	Color color_turno;
+	int v_abs[2];
+	int impar;
+	int middle_pos[2];
+	Vector2D donde_va, donde_come;
+
+	//nuevo
+	Ficha* ficha_selec;
+	/////////
+
+	if (turno == rojas) {
+
+		color_turno = ROJO;
+	}
+
+
+	else {
+		color_turno = BLANCO;
+	}
+
+
+
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	{
+		pos[1] = trunc(mouseX / (PX_X / M)); // el eje x corresponde con el indice j (COLUMNAS)
+		pos[0] = trunc(mouseY / (PX_Y / M)); //el eje y corresponde con el indice i (FILAS)
+		impar = (pos[1] + pos[0]) % 2; //COMPRUEBA SI LA CASILLA ES NEGRA, PARA PERMITIR O NO LA COLOCACION DE LA FICHA
+
+		ficha_selec = fichas.buscar_lista_ficha(pos[0], pos[1]);
+
+		if (ficha_selec != NULL && seleccionada == false)	// seleccionas una ficha de tu color cuando sea tu turno	
+		{
+
+			//ficha_selec = tablero[pos[0]][pos[1]].GetColor();		// Se guarda el color de la ficha seleccionada
+			if (ficha_selec->GetColor() == color_turno) {						//Ha seleccionado una de sus fichas
+
+				ficha_selec->SetColor(VERDE);			//Se pone de color verde
+				seleccionada = true;
+				pos_verde[0] = pos[0];								//guardamos la posicion donde esta la ficha verde
+				pos_verde[1] = pos[1];
+
+			}
+
+		}
+
+		if (pos[0] == 0 && color_turno == BLANCO) {
+
+			ficha_selec = NULL;
+			fichas.crear_dama(pos[0], pos[1]);
+
+			cout << "DAMA" << endl;
+
+		}
+
+		else if (pos[0] == 7 && color_turno == ROJO) {
+
+			ficha_selec = NULL;
+			fichas.crear_dama(pos[0], pos[1]);
+			cout << "DAMA" << endl;
+
+		}
+
+
+		if (ficha_selec != NULL && seleccionada && reglaCasillaNegra(pos[0], pos[1])) //si la mueves a una casilla vacia
+		{
+
+
+			middle_pos[0] = (pos_verde[0] + pos[0]) / 2;
+			middle_pos[1] = (pos_verde[1] + pos[1]) / 2;
+
+			v_abs[1] = abs(pos[1] - pos_verde[1]);// GUARDA EN UN VECTOR DE DOS COORDENADAS LOS VALORES DEL V. ABS DE LA RESTA DE LA POSICION ACTUAL CON LA POSTERIOR. ASI QUEDA RESTRINGIDO EL MOVIMIENTO A DOS UNIDADES MAX.
+			v_abs[0] = abs(pos[0] - pos_verde[0]);// GUARDA EN UN VECTOR DE DOS COORDENADAS LOS VALORES DEL V. ABS DE LA RESTA DE LA POSICION ACTUAL CON LA POSTERIOR. ASI QUEDA RESTRINGIDO EL MOVIMIENTO A DOS UNIDADES MAX.
+
+
+			int ady_pos_1[2];
+
+
+			ady_pos_1[0] = pos[0] + 1;
+			ady_pos_1[1] = pos[1] + 1;
+
+			int ady_pos_2[2];
+
+			ady_pos_2[0] = pos[0] - 1;
+			ady_pos_2[1] = pos[1] - 1;
+
+			int ady_pos_3[2];
+
+			ady_pos_3[0] = pos[0] + 1;
+			ady_pos_3[1] = pos[1] - 1;
+
+			int ady_pos_4[2];
+
+			ady_pos_4[0] = pos[0] - 1;
+			ady_pos_4[1] = pos[1] + 1;
+
+
+
+
+			int jump_pos_1[2];
+
+
+			jump_pos_1[0] = ady_pos_1[0] + 1;
+			jump_pos_1[1] = ady_pos_1[1] + 1;
+
+			int jump_pos_2[2];
+
+			jump_pos_2[0] = ady_pos_2[0] - 1;
+			jump_pos_2[1] = ady_pos_2[1] - 1;
+
+			int jump_pos_3[2];
+
+			jump_pos_3[0] = ady_pos_3[0] + 1;
+			jump_pos_3[1] = ady_pos_3[1] - 1;
+
+			int jump_pos_4[2];
+
+			jump_pos_4[0] = ady_pos_4[0] - 1;
+			jump_pos_4[1] = ady_pos_4[1] + 1;
+
+
+
+
+			if (tablero[pos_verde[0]][pos_verde[1]].GetTipo() == DAMA) {
+
+
+				if (v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == ROJO) {	// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
+
+					if (v_abs[0] == 2 && v_abs[1] == 2) {
+
+						if (tablero[middle_pos[0]][middle_pos[1]].GetEstado() == OCUPADO && tablero[middle_pos[0]][middle_pos[1]].GetColor() == BLANCO) {
+
+							tablero[middle_pos[0]][middle_pos[1]].BorraFicha(middle_pos[0], middle_pos[1], color_turno);
+							tablero[middle_pos[0]][middle_pos[1]].SetEstado(VACIO);
+							tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+							tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+							tablero[pos[0]][pos[1]].SetTipo(DAMA);
+							tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+							cout << pos[0] << "," << pos[1] << endl;
+							seleccionada = false;
+
+							if (tablero[ady_pos_1[0]][ady_pos_1[1]].GetEstado() == OCUPADO && tablero[ady_pos_1[0]][ady_pos_1[1]].GetColor() == BLANCO) {
+
+								cout << "OCUPADA_1" << endl;
+
+								if (tablero[jump_pos_1[0]][jump_pos_1[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_1[0]][ady_pos_1[1]].BorraFicha(ady_pos_1[0], ady_pos_1[1], color_turno);
+									tablero[ady_pos_1[0]][ady_pos_1[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetTipo(DAMA);
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_1[0];
+
+									cout << "MOVIDO_1" << endl;
+									cout << jump_pos_1[0] << "," << jump_pos_1[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_2[0]][ady_pos_2[1]].GetEstado() == OCUPADO && tablero[ady_pos_2[0]][ady_pos_2[1]].GetColor() == BLANCO) {
+
+								cout << "OCUPADA_2" << endl;
+
+								if (tablero[jump_pos_2[0]][jump_pos_2[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_2[0]][ady_pos_2[1]].BorraFicha(ady_pos_2[0], ady_pos_2[1], color_turno);
+									tablero[ady_pos_2[0]][ady_pos_2[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetTipo(DAMA);
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_2[0];
+									cout << "MOVIDO_2" << endl;
+									cout << jump_pos_2[0] << "," << jump_pos_2[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_3[0]][ady_pos_3[1]].GetEstado() == OCUPADO && tablero[ady_pos_3[0]][ady_pos_3[1]].GetColor() == BLANCO) {
+
+
+								cout << "OCUPADA_3" << endl;
+
+								if (tablero[jump_pos_3[0]][jump_pos_3[1]].GetEstado() == VACIO) {
+
+
+									tablero[ady_pos_3[0]][ady_pos_3[1]].BorraFicha(ady_pos_3[0], ady_pos_3[1], color_turno);
+									tablero[ady_pos_3[0]][ady_pos_3[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetTipo(DAMA);
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_3[0];
+									cout << "MOVIDO_3" << endl;
+									cout << jump_pos_3[0] << "," << jump_pos_3[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_4[0]][ady_pos_4[1]].GetEstado() == OCUPADO && tablero[ady_pos_4[0]][ady_pos_4[1]].GetColor() == BLANCO) {
+
+								cout << "OCUPADA_4" << endl;
+
+								if (tablero[jump_pos_4[0]][jump_pos_4[1]].GetEstado() == VACIO) {
+									tablero[ady_pos_4[0]][ady_pos_4[1]].BorraFicha(ady_pos_4[0], ady_pos_4[1], color_turno);
+									tablero[ady_pos_4[0]][ady_pos_4[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetTipo(DAMA);
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_4[0];
+									cout << "MOVIDO_4" << endl;
+									cout << jump_pos_4[0] << "," << jump_pos_4[1] << endl;
+
+								}
+								else {
+
+
+								}
+							}
+
+							seleccionada = false;
+
+						}
+						else {
+
+							turno_fallido = true;
+							seleccionada = false;
+							tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+
+						}
+					}
+					else if ((v_abs[0] == 1 && v_abs[1] == 1)) {
+						tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+						tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+						tablero[pos[0]][pos[1]].SetTipo(DAMA);
+						tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+						seleccionada = false;
+					}
+
+
+				}
+
+
+				else if (v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == BLANCO) {	// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
+
+					if (v_abs[0] == 2 && v_abs[1] == 2) {
+
+						if (tablero[middle_pos[0]][middle_pos[1]].GetEstado() == OCUPADO && tablero[middle_pos[0]][middle_pos[1]].GetColor() == ROJO) {
+
+							tablero[middle_pos[0]][middle_pos[1]].BorraFicha(middle_pos[0], middle_pos[1], color_turno);
+							tablero[middle_pos[0]][middle_pos[1]].SetEstado(VACIO);
+							tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+							tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+							tablero[pos[0]][pos[1]].SetTipo(DAMA);
+							tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+							cout << pos[0] << "," << pos[1] << endl;
+							seleccionada = false;
+
+							if (tablero[ady_pos_1[0]][ady_pos_1[1]].GetEstado() == OCUPADO && tablero[ady_pos_1[0]][ady_pos_1[1]].GetColor() == ROJO) {
+
+								cout << "OCUPADA_1" << endl;
+
+								if (tablero[jump_pos_1[0]][jump_pos_1[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_1[0]][ady_pos_1[1]].BorraFicha(ady_pos_1[0], ady_pos_1[1], color_turno);
+									tablero[ady_pos_1[0]][ady_pos_1[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetTipo(DAMA);
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_1[0];
+
+									cout << "MOVIDO_1" << endl;
+									cout << jump_pos_1[0] << "," << jump_pos_1[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_2[0]][ady_pos_2[1]].GetEstado() == OCUPADO && tablero[ady_pos_2[0]][ady_pos_2[1]].GetColor() == ROJO) {
+
+								cout << "OCUPADA_2" << endl;
+
+								if (tablero[jump_pos_2[0]][jump_pos_2[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_2[0]][ady_pos_2[1]].BorraFicha(ady_pos_2[0], ady_pos_2[1], color_turno);
+									tablero[ady_pos_2[0]][ady_pos_2[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetTipo(DAMA);
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_2[0];
+									cout << "MOVIDO_2" << endl;
+									cout << jump_pos_2[0] << "," << jump_pos_2[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_3[0]][ady_pos_3[1]].GetEstado() == OCUPADO && tablero[ady_pos_3[0]][ady_pos_3[1]].GetColor() == ROJO) {
+
+
+								cout << "OCUPADA_3" << endl;
+
+								if (tablero[jump_pos_3[0]][jump_pos_3[1]].GetEstado() == VACIO) {
+
+
+									tablero[ady_pos_3[0]][ady_pos_3[1]].BorraFicha(ady_pos_3[0], ady_pos_3[1], color_turno);
+									tablero[ady_pos_3[0]][ady_pos_3[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetTipo(DAMA);
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_3[0];
+									cout << "MOVIDO_3" << endl;
+									cout << jump_pos_3[0] << "," << jump_pos_3[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+
+							else if (tablero[ady_pos_4[0]][ady_pos_4[1]].GetEstado() == OCUPADO && tablero[ady_pos_4[0]][ady_pos_4[1]].GetColor() == ROJO) {
+
+								cout << "OCUPADA_4" << endl;
+
+								if (tablero[jump_pos_4[0]][jump_pos_4[1]].GetEstado() == VACIO) {
+									tablero[ady_pos_4[0]][ady_pos_4[1]].BorraFicha(ady_pos_4[0], ady_pos_4[1], color_turno);
+									tablero[ady_pos_4[0]][ady_pos_4[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetTipo(DAMA);
+									tablero[jump_pos_4[0]][jump_pos_4[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_4[0];
+									cout << "MOVIDO_4" << endl;
+									cout << jump_pos_4[0] << "," << jump_pos_4[1] << endl;
+
+								}
+								else {
+
+
+								}
+							}
+							seleccionada = false;
+
+						}
+						else {
+
+							turno_fallido = true;
+							seleccionada = false;
+							tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+
+						}
+					}
+					else if ((v_abs[0] == 1 && v_abs[1] == 1)) {
+						tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+						tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+						tablero[pos[0]][pos[1]].SetTipo(DAMA);
+						tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+						seleccionada = false;
+					}
+
+
+				}
+
+
+
+
+				else { //EN CASO DE ERROR EN EL NUMERO DE UNIDADES QUE QUEREMOS MOVERNOS, O EN CASO DE QUERER IR HACIA ATRAS, NOS MANDA A REPETIR EL MOVIMIENTO.
+					turno_fallido = true;
+					seleccionada = false;
+					tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+
+				}
+
+				if (turno_fallido == false) {
+
+					if (turno == rojas) turno = blancas;														//cambiamos el turno
+					else turno = rojas;
+				}
+
+
+				else { // NOS PERMITE REPETIR EL MOVIMIENTO, YA QUE EL TURNO NO CAMBIA
+					if (turno == rojas) turno = rojas;
+					else turno = blancas;
+					turno_fallido = false;
+				}
+
+			}
+
+			else {
+				if (pos_verde[0] < pos[0] && v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == ROJO) {	// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
+
+					if (v_abs[0] == 2 && v_abs[1] == 2) {
+						if (tablero[middle_pos[0]][middle_pos[1]].GetEstado() == OCUPADO && tablero[middle_pos[0]][middle_pos[1]].GetColor() == BLANCO) {
+
+							tablero[middle_pos[0]][middle_pos[1]].BorraFicha(middle_pos[0], middle_pos[1], color_turno);
+							tablero[middle_pos[0]][middle_pos[1]].SetEstado(VACIO);
+							tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+							tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+							tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+							cout << pos[0] << "," << pos[1] << endl;
+							seleccionada = false;
+
+							if (tablero[ady_pos_1[0]][ady_pos_1[1]].GetEstado() == OCUPADO && tablero[ady_pos_1[0]][ady_pos_1[1]].GetColor() == BLANCO) {
+
+								cout << "OCUPADA_1" << endl;
+
+								if (tablero[jump_pos_1[0]][jump_pos_1[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_1[0]][ady_pos_1[1]].BorraFicha(ady_pos_1[0], ady_pos_1[1], color_turno);
+									tablero[ady_pos_1[0]][ady_pos_1[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_1[0]][jump_pos_1[1]].SetColor(color_turno);												//con su color correspondiente
+
+									pos[0] = jump_pos_1[0];
+									cout << "MOVIDO_1" << endl;
+									cout << jump_pos_1[0] << "," << jump_pos_1[1] << endl;
+								}
+
+								else {
+
+
+								}
+							}
+
+							else if (tablero[ady_pos_3[0]][ady_pos_3[1]].GetEstado() == OCUPADO && tablero[ady_pos_3[0]][ady_pos_3[1]].GetColor() == BLANCO) {
+
+
+								cout << "OCUPADA_3" << endl;
+
+								if (tablero[jump_pos_3[0]][jump_pos_3[1]].GetEstado() == VACIO) {
+
+
+									tablero[ady_pos_3[0]][ady_pos_3[1]].BorraFicha(ady_pos_3[0], ady_pos_3[1], color_turno);
+									tablero[ady_pos_3[0]][ady_pos_3[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_3[0]][jump_pos_3[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_3[0];
+									cout << "MOVIDO_3" << endl;
+									cout << jump_pos_3[0] << "," << jump_pos_3[1] << endl;
+								}
+								else {
+
+
+								}
+
+							}
+
+
+
+							seleccionada = false;
+
+						}
+						else {
+							turno_fallido = true;
+							seleccionada = false;
+							tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+						}
+					}
+
+					else if ((v_abs[0] == 1 && v_abs[1] == 1)) {
+						tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+						tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+						tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+						seleccionada = false;
+					}
+
+				}
+
+				else if (pos_verde[0] > pos[0] && v_abs[0] <= 2 && v_abs[1] <= 2 && v_abs[0] != 0 && v_abs[1] != 0 && color_turno == BLANCO) {// SE EVALUA PRIMERO QUE LA POSICION SIGUIENTE EN EL EJE Y PERMITE SU MOVIMIENTO. DESPUES, QUE EL MOVIMIENTO ES DE DOS UNIDADES. ADEMAS, QUE TAMPOCO SEA CERO.
+
+					if (v_abs[0] == 2 && v_abs[1] == 2) {
+						if (tablero[middle_pos[0]][middle_pos[1]].GetEstado() == OCUPADO && tablero[middle_pos[0]][middle_pos[1]].GetColor() == ROJO) {
+
+							tablero[middle_pos[0]][middle_pos[1]].BorraFicha(middle_pos[0], middle_pos[1], color_turno);
+							tablero[middle_pos[0]][middle_pos[1]].SetEstado(VACIO);
+							tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+							tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+							tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+							seleccionada = false;
+
+
+							if (tablero[ady_pos_2[0]][ady_pos_2[1]].GetEstado() == OCUPADO && tablero[ady_pos_2[0]][ady_pos_2[1]].GetColor() == ROJO) {
+
+								cout << "OCUPADA_2" << endl;
+
+								if (tablero[jump_pos_2[0]][jump_pos_2[1]].GetEstado() == VACIO) {
+
+									tablero[ady_pos_2[0]][ady_pos_2[1]].BorraFicha(ady_pos_2[0], ady_pos_2[1], color_turno);
+									tablero[ady_pos_2[0]][ady_pos_2[1]].SetEstado(VACIO);
+									tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+									tablero[jump_pos_2[0]][jump_pos_2[1]].SetColor(color_turno);												//con su color correspondiente
+									pos[0] = jump_pos_2[0];
+									cout << "MOVIDO_2" << endl;
+									cout << jump_pos_2[0] << "," << jump_pos_2[1] << endl;
+								}
+
+								else if (tablero[ady_pos_4[0]][ady_pos_4[1]].GetEstado() == OCUPADO && tablero[ady_pos_4[0]][ady_pos_4[1]].GetColor() == BLANCO) {
+
+									cout << "OCUPADA_4" << endl;
+
+									if (tablero[jump_pos_4[0]][jump_pos_4[1]].GetEstado() == VACIO) {
+										tablero[ady_pos_4[0]][ady_pos_4[1]].BorraFicha(ady_pos_4[0], ady_pos_4[1], color_turno);
+										tablero[ady_pos_4[0]][ady_pos_4[1]].SetEstado(VACIO);
+										tablero[pos[0]][pos[1]].BorraFicha(pos[0], pos[1], color_turno);	//eliminas la ficha
+										tablero[jump_pos_4[0]][jump_pos_4[1]].SetEstado(OCUPADO);	//ocupamos la casilla
+										tablero[jump_pos_4[0]][jump_pos_4[1]].SetColor(color_turno);
+										pos[0] = jump_pos_4[0];
+										//con su color correspondiente
+
+										cout << "MOVIDO_4" << endl;
+										cout << jump_pos_4[0] << "," << jump_pos_4[1] << endl;
+
+									}
+
+								}
+
+								else {
+
+
+								}
+							}
+
+
+
+
+							seleccionada = false;
+
+						}
+
+						else {
+							turno_fallido = true;
+							seleccionada = false;
+							tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+						}
+					}
+					else if ((v_abs[0] == 1 && v_abs[1] == 1)) {
+						tablero[pos_verde[0]][pos_verde[1]].BorraFicha(pos_verde[0], pos_verde[1], color_turno);	//eliminas la ficha
+						tablero[pos[0]][pos[1]].SetEstado(OCUPADO);													//ocupamos la casilla
+						tablero[pos[0]][pos[1]].SetColor(color_turno);												//con su color correspondiente
+						seleccionada = false;
+					}
+
+				}
+				else { //EN CASO DE ERROR EN EL NUMERO DE UNIDADES QUE QUEREMOS MOVERNOS, O EN CASO DE QUERER IR HACIA ATRAS, NOS MANDA A REPETIR EL MOVIMIENTO.
+					turno_fallido = true;
+					seleccionada = false;
+					tablero[pos_verde[0]][pos_verde[1]].SetColor(color_turno);
+
+				}
+
+				if (turno_fallido == false) {
+
+					if (turno == rojas) turno = blancas;														//cambiamos el turno
+					else turno = rojas;
+				}
+
+
+				else { // NOS PERMITE REPETIR EL MOVIMIENTO, YA QUE EL TURNO NO CAMBIA
+					if (turno == rojas) turno = rojas;
+					else turno = blancas;
+					turno_fallido = false;
+				}
+
+			}
+		}
+
+	}
+
 
 
 }

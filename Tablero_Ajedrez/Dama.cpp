@@ -35,6 +35,16 @@ int Dama::GetPosY()
 	return posicion[1];
 }
 
+Color Dama::GetColor()
+{
+	return color;
+}
+
+Tipo Dama::GetTipo()
+{
+	return tipo;
+}
+
 void Dama::Dibuja()
 {
 	int x, y;

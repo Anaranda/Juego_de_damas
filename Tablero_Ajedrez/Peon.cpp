@@ -40,6 +40,16 @@ int Peon::GetPosY()
 	return posicion[1];
 }
 
+Color Peon::GetColor()
+{
+	return color;
+}
+
+Tipo Peon::GetTipo()
+{
+	return tipo;
+}
+
 void Peon::Dibuja()
 {
 	int x, y;

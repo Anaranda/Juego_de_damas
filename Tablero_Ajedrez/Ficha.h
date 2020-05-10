@@ -34,10 +34,11 @@ public:
 	//Puede que estas funciones get and set sean inncesarias pero las he puesto por si acaso
 	/*Estado GetEstado();
 	void SetEstado(Estado est);
-	Tipo GetTipo();
+
 	void SetTipo(Tipo tip);*/
-	//Color GetColor();
-	virtual void SetColor(Color col);
+	virtual Tipo GetTipo() = 0;
+	virtual Color GetColor() = 0;
+	virtual void SetColor(Color col) = 0;
 	float GetRadio();
 	virtual void SetRadio(float rad);
 	virtual void SetPos(float ix, float iy);
@@ -51,7 +52,7 @@ public:
 	//Recibe como parametros los indices i j de la posicion de dicha ficha en el tablero
 	//mas info dentro de la funcion FALTA CODIGO DENTRO DE LA FUNCION
 	//void Dibuja(int i, int j);
-	virtual void Dibuja()=0;
+	virtual void Dibuja();
 	virtual void BorraFicha(int i, int j, Color col);
 
 };
