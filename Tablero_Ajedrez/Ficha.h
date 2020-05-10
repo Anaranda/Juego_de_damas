@@ -18,7 +18,7 @@ protected:
 	float radio;
 	Color color;
 	Tipo tipo;
-
+	
 
 
 	/*Estado estado;
@@ -26,25 +26,25 @@ protected:
 	Color color;*/
 
 	//Vector2D posicion; //Se puede sustituir por un vector de floats o de ints en un principio
-
+	
 
 public:
-
-
+	
+	
 	//Puede que estas funciones get and set sean inncesarias pero las he puesto por si acaso
 	/*Estado GetEstado();
 	void SetEstado(Estado est);
-
+	
 	void SetTipo(Tipo tip);*/
-	virtual Tipo GetTipo() = 0;
-	virtual Color GetColor() = 0;
-	virtual void SetColor(Color col) = 0;
+	virtual Tipo GetTipo()=0;
+	virtual Color GetColor()=0;
+	virtual void SetColor(Color col)=0;
 	float GetRadio();
 	virtual void SetRadio(float rad);
 	virtual void SetPos(float ix, float iy);
 	virtual int GetPosX();
 	virtual int GetPosY();
-
+	
 
 	//funcion que dibuja una ficha. La idea es que se llame a esta funcion 
 	//en otra funcion como "DibujarTablero()" que pertenezca a la clase "Tablero" o "Partida"
@@ -54,6 +54,7 @@ public:
 	//void Dibuja(int i, int j);
 	virtual void Dibuja();
 	virtual void BorraFicha(int i, int j, Color col);
+	virtual void Mueve(int posX, int posY)=0;
 
 };
 

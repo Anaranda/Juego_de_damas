@@ -122,34 +122,34 @@ void Ficha::Dibuja()
 {
 	int x, y;
 	float theta;
-	radio = (PX_X / M) * 0.4; //definir en el set radio
-	glBegin(GL_POLYGON);
+		radio = (PX_X / M) * 0.4; //definir en el set radio
+		glBegin(GL_POLYGON);
+	
+		//Color de la ficha
+		if (color == ROJO)
+		{
+			glColor3f(1, 0, 0);//Pinta de color rojo la ficha (ROJO=0)
+		}
+		else if (color == VERDE) //color de cuando lo seleccionas
+		{
+			glColor3f(0, 1, 0);
+		}
+	
+		else if (color == BLANCO)
+		{
+			glColor3f(1, 1, 1); //pinta de color blanco la ficha
+		}
+			 x= posicion[1] * (PX_X / M) + (PX_X / (2 * M));
+			 y= PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
 
-	//Color de la ficha
-	if (color == ROJO)
-	{
-		glColor3f(1, 0, 0);//Pinta de color rojo la ficha (ROJO=0)
-	}
-	else if (color == VERDE) //color de cuando lo seleccionas
-	{
-		glColor3f(0, 1, 0);
-	}
+			/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
 
-	else if (color == BLANCO)
-	{
-		glColor3f(1, 1, 1); //pinta de color blanco la ficha
-	}
-	x = posicion[1] * (PX_X / M) + (PX_X / (2 * M));
-	y = PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
-
-	/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
-
-	//DIBUJA CIRCULO
-	for (int i = 0; i < 360; i++) {
-		theta = i * 3.1416 / 180;
-		glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
-	}
-	glEnd();
+			//DIBUJA CIRCULO
+			for (int i = 0; i < 360; i++) {
+				theta = i * 3.1416 / 180;
+				glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
+			}
+			glEnd();
 }
 
 

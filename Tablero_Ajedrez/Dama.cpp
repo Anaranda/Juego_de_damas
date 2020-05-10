@@ -45,6 +45,12 @@ Tipo Dama::GetTipo()
 	return tipo;
 }
 
+void Dama::Mueve(int pos_finX, int pos_finY)
+{
+	posicion[0] = pos_finX;
+	posicion[1] = pos_finY;
+}
+
 void Dama::Dibuja()
 {
 	int x, y;

@@ -1,5 +1,4 @@
 #pragma once
-#include "ListaPeones.h"
 #include "ListaFichas.h"
 #include "Ficha.h"
 #include <stdio.h>
@@ -23,7 +22,7 @@ private:
 	ListaFichas fichas;
 
 public:
-	enum Turno { blancas, rojas };
+	enum Turno{blancas, rojas};
 	Turno turno;
 	bool seleccionada;
 	int pos[2];
@@ -33,11 +32,15 @@ public:
 	void Inicializa();
 	void DibujaTablero();
 	void TexturaTablero();
-	/*int GetX();
+	/*int GetX(); 
 	int GetY();*/
-	void SelecFicha(int button, int state, int mouseX, int mouseY);
+	void SelecFicha (int button, int state, int mouseX, int mouseY);
 	bool reglaCasillaNegra(int i, int j);
 	//bool seleccionValida(int i, int j);
-
+	bool ficha_en_medio(int posX, int posY, int posVerdeX, int posVerdeY);
+	bool casilla_vacia(int posX, int posY);
+	bool dentro_de_tablero(int i, int j);
+	bool movimiento_simple(int posX, int posY, int posVerdeX, int posVerdeY);
+	bool direccion_correcta(int posX, int posY, int posVerdeX, int posVerdeY);
 };
 
