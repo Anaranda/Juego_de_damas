@@ -63,7 +63,7 @@ void OnDraw(void)
   
 
 	//aqui es donde hay que poner el código de dibujo
-
+	
 	MiTablero.TexturaTablero();
 	MiTablero.DibujaTablero();
 

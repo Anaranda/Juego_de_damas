@@ -1,4 +1,5 @@
 #pragma once
+#include "ListaPeones.h"
 #include "Ficha.h"
 #include <stdio.h>
 #include "Mouse.h"
@@ -16,6 +17,7 @@ class Tablero
 {
 private:
 	Ficha tablero[M][M];
+	ListaPeones peones;
 
 public:
 	enum Turno{blancas, rojas};
@@ -24,6 +26,7 @@ public:
 	int pos[2];
 	int pos_verde[2];
 	Tablero();
+	//void dibuja();
 	void Inicializa();
 	void DibujaTablero();
 	void TexturaTablero();
