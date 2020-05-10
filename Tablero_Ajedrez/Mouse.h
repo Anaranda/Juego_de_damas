@@ -4,11 +4,11 @@
 #include "glut.h"
 
 
-enum PULSACION{SIN_PULSAR,PRIMERO,SEGUNDO};
+enum PULSACION { SIN_PULSAR, PRIMERO, SEGUNDO };
 
 class Mouse
 {
- 
+
 public:
     int indices[2];
     int i0, j0;

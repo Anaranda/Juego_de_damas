@@ -8,6 +8,8 @@
 //enum Color { ROJO, BLANCO, VERDE }; //ROJO=O BLANCO=1
 
 enum Color { ROJO, BLANCO, VERDE }; //ROJO=O BLANCO=1
+enum Tipo { PEON, DAMA }; //PEON=0, DAMA=1
+
 class Ficha
 {
 	//friend class ListaPeon;
@@ -15,7 +17,8 @@ protected:
 	int posicion[2];
 	float radio;
 	Color color;
-	
+	Tipo tipo;
+
 
 
 	/*Estado estado;
@@ -23,24 +26,24 @@ protected:
 	Color color;*/
 
 	//Vector2D posicion; //Se puede sustituir por un vector de floats o de ints en un principio
-	
+
 
 public:
-	
-	
+
+
 	//Puede que estas funciones get and set sean inncesarias pero las he puesto por si acaso
 	/*Estado GetEstado();
 	void SetEstado(Estado est);
 	Tipo GetTipo();
 	void SetTipo(Tipo tip);*/
 	//Color GetColor();
-	void SetColor(Color col);
+	virtual void SetColor(Color col);
 	float GetRadio();
-	void SetRadio(float rad);
-	void SetPos(float ix, float iy);
-	int GetPosX();
-	int GetPosY();
-	
+	virtual void SetRadio(float rad);
+	virtual void SetPos(float ix, float iy);
+	virtual int GetPosX();
+	virtual int GetPosY();
+
 
 	//funcion que dibuja una ficha. La idea es que se llame a esta funcion 
 	//en otra funcion como "DibujarTablero()" que pertenezca a la clase "Tablero" o "Partida"
@@ -48,8 +51,8 @@ public:
 	//Recibe como parametros los indices i j de la posicion de dicha ficha en el tablero
 	//mas info dentro de la funcion FALTA CODIGO DENTRO DE LA FUNCION
 	//void Dibuja(int i, int j);
-	void Dibuja();
-	void BorraFicha(int i, int j, Color col);
+	virtual void Dibuja()=0;
+	virtual void BorraFicha(int i, int j, Color col);
 
 };
 

@@ -40,7 +40,7 @@ void ListaPeones::inicializa()
 		{
 			if ((i + j) % 2 != 0)
 			{
-				if (i<3)
+				if (i < 3)
 				{
 					Peon* aux = new Peon;
 					aux->SetPos(i, j);
@@ -62,14 +62,14 @@ void ListaPeones::inicializa()
 	}
 }
 
-//Peon* ListaPeones::buscar_lista(int x, int y)
-//{
-//	for(int i=0; i<num;i++)
-//	{
-//		if ((lista_peon[i]->GetPosX() == x) && (lista_peon[i]->GetPosY() == y))
-//			return lista_peon[i];
-//	}
-//	return NULL;
-//}
+Peon* ListaPeones::buscar_lista_peon(int x, int y)
+{
+	for (int i = 0; i < num;i++)
+	{
+		if ((lista_peon[i]->GetPosX() == x) && (lista_peon[i]->GetPosY() == y))
+			return lista_peon[i];
+	}
+	return NULL;
+}
 
 

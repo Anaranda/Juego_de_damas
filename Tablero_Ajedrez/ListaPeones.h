@@ -3,16 +3,16 @@
 #define MAX_PEONES 24
 class ListaPeones
 {
-public: 
+public:
 	ListaPeones();
 	//virtual ~ListaPeones;
 	bool agregar(Peon* p);
 	void dibuja();
 	void mueve();
 	void inicializa();
-	//Peon* buscar_lista(int x, int y);
+	Peon* buscar_lista_peon(int x, int y);
 
-private: 
+private:
 	Peon* lista_peon[MAX_PEONES];
 	int num;
 };

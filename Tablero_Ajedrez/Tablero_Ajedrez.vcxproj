@@ -133,7 +133,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dama.cpp" />
     <ClCompile Include="Ficha.cpp" />
+    <ClCompile Include="ListaDamas.cpp" />
+    <ClCompile Include="ListaFichas.cpp" />
     <ClCompile Include="ListaPeones.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Peon.cpp" />
@@ -144,6 +147,8 @@
   <ItemGroup>
     <ClInclude Include="Dama.h" />
     <ClInclude Include="Ficha.h" />
+    <ClInclude Include="ListaDamas.h" />
+    <ClInclude Include="ListaFichas.h" />
     <ClInclude Include="ListaPeones.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Peon.h" />

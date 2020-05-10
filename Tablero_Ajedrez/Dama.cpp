@@ -1,46 +1,41 @@
-#include "Peon.h"
+#include "Dama.h"
 
 #define M 8
 #define PX_X  800
 #define PX_Y  800
 
-Peon::Peon()
+Dama::Dama()
 {
-	tipo = PEON;
+	tipo = DAMA;
 }
 
-void Peon::Mueve()
-{
-	//Aqui llamamos a la funcion mueve de las fichas
-}
-
-void Peon::SetColor(Color col)
+void Dama::SetColor(Color col)
 {
 	color = col;
 }
 
-void Peon::SetRadio(float rad)
+void Dama::SetRadio(float rad)
 {
 	radio = rad;
 }
 
-void Peon::SetPos(float ix, float iy)
+void Dama::SetPos(float ix, float iy)
 {
 	posicion[0] = ix;
 	posicion[1] = iy;
 }
 
-int Peon::GetPosX()
+int Dama::GetPosX()
 {
 	return posicion[0];
 }
 
-int Peon::GetPosY()
+int Dama::GetPosY()
 {
 	return posicion[1];
 }
 
-void Peon::Dibuja()
+void Dama::Dibuja()
 {
 	int x, y;
 	float theta;
@@ -84,4 +79,28 @@ void Peon::Dibuja()
 		glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
 	}
 	glEnd();
+	//LO DE LOS TRIANGULOS/////
+	///////////////
+	glBegin(GL_TRIANGLES);
+
+
+
+	glColor3f(1, 1, 0);
+	glVertex2f(x - 10, y - 7);
+	glVertex2f(x + 10, y - 7);
+	glVertex2f(x, y + 10);
+
+
+
+	glVertex2f(x - 25, y - 7);
+	glVertex2f(x - 5, y - 7);
+	glVertex2f(x - 15, y + 10);
+
+
+
+	glVertex2f(x + 5, y - 7);
+	glVertex2f(x + 25, y - 7);
+	glVertex2f(x + 15, y + 10);
+	glEnd();
+
 }
