@@ -137,9 +137,7 @@
     <ClCompile Include="Dama.cpp" />
     <ClCompile Include="ETSIDAMAS.cpp" />
     <ClCompile Include="Ficha.cpp" />
-    <ClCompile Include="ListaDamas.cpp" />
     <ClCompile Include="ListaFichas.cpp" />
-    <ClCompile Include="ListaPeones.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Peon.cpp" />
     <ClCompile Include="Tablero.cpp" />
@@ -149,9 +147,7 @@
     <ClInclude Include="Coordinador.h" />
     <ClInclude Include="Dama.h" />
     <ClInclude Include="Ficha.h" />
-    <ClInclude Include="ListaDamas.h" />
     <ClInclude Include="ListaFichas.h" />
-    <ClInclude Include="ListaPeones.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Peon.h" />
     <ClInclude Include="Tablero.h" />

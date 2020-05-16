@@ -44,6 +44,7 @@ public:
 	virtual void SetPos(float ix, float iy);
 	virtual int GetPosX();
 	virtual int GetPosY();
+	virtual ~Ficha();
 
 	//funcion que dibuja una ficha. La idea es que se llame a esta funcion 
 	//en otra funcion como "DibujarTablero()" que pertenezca a la clase "Tablero" o "Partida"

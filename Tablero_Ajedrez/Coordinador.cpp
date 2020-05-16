@@ -231,10 +231,17 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 	}
 	if (state == INIJUEGO)  //MENU inicial del juego
 	{
+
+		if (MiTablero.fin_de_juego()) {
+			MiTablero.eliminar(); 
+			state = SELINIJUEGO;
+
+		}
 		glDisable(GL_LIGHTING);
 		MiTablero.DibujaTablero();
 		glEnable(GL_LIGHTING);
 		MiTablero.TexturaTablero();
+
 	}
 
 	if (state == SELINSTRUC)  //INSTRUCCIONES

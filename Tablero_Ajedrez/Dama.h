@@ -11,6 +11,7 @@ private:
 	//Color color;
 public:
 	Dama();
+	virtual ~Dama();
 	virtual void SetColor(Color col);
 	virtual void SetRadio(float rad);
 	virtual void SetPos(int ix, int iy);

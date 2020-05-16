@@ -9,6 +9,10 @@ Dama::Dama()
 	tipo = DAMA;
 }
 
+Dama::~Dama()
+{
+}
+
 void Dama::SetColor(Color col)
 {
 	color = col;

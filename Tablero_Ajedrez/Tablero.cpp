@@ -1,6 +1,5 @@
 #include "Tablero.h"
 #include "Ficha.h"
-#include "ListaPeones.h"
 #include <iostream>
 
 
@@ -166,11 +165,12 @@ void Tablero::SelecFicha(int button, int state, int mouseX, int mouseY)
 
 
 			cambio_turno();
-			if (fin_de_juego(turno) == true) {
+			if (fin_de_juego() == true) {
 
-				
+				estado_inicial = true;
+								cout << "HAS GANAO" << endl;
 
-				cout << "HAS GANAO" << endl;
+
 
 
 
@@ -181,9 +181,15 @@ void Tablero::SelecFicha(int button, int state, int mouseX, int mouseY)
 
 
 
+
+
 				//CoordinadorEtsiDamas::state = INIJUEGO;
 
+
+
 				//hacemos llamada al destructor y nos a
+
+
 
 			}
 			cambio_estado();
@@ -406,7 +412,7 @@ bool Tablero::muevo_y_como(int posX, int posY, int posVerdeX, int posVerdeY)
 	return false;
 }
 
-bool Tablero::fin_de_juego(Color turno)
+bool Tablero::fin_de_juego()
 {
 
 	if (fichas.buscar_lista_color(turno) == false) {
@@ -418,6 +424,11 @@ bool Tablero::fin_de_juego(Color turno)
 
 	}
 	return false;
+}
+
+void Tablero::eliminar()
+{
+	fichas.eliminar_fichas();
 }
 
 

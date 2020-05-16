@@ -60,6 +60,7 @@ public:
 	bool muevo_a_vacio_simple(int posX, int posY, int posVerdeX, int posVerdeY);
 	bool muevo_y_como(int posX, int posY, int posVerdeX, int posVerdeY);//movimiento de salto de ficha simple
 
-	bool fin_de_juego(Color turno);
+	bool fin_de_juego();
+	void eliminar();
 };
 

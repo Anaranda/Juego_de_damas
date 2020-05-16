@@ -44,6 +44,10 @@ int Ficha::GetPosY()
 	return posicion[1];
 }
 
+Ficha::~Ficha()
+{
+}
+
 void Ficha::Dibuja()
 {
 	int x, y;

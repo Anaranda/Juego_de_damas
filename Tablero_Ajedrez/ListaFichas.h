@@ -16,6 +16,7 @@ public:
 	void dibuja();
 	//void mueve();
 	void inicializa();
+	void eliminar_fichas();
 	Ficha* buscar_lista_ficha(int x, int y);
 
 	bool buscar_lista_color(Color color);

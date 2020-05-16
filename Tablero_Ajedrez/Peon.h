@@ -13,6 +13,7 @@ private:
 
 public:
 	Peon();
+	virtual ~Peon();
 	void Mueve();
 	virtual void SetColor(Color col);
 	virtual void SetRadio(float rad);

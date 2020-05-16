@@ -47,6 +47,18 @@ void ListaFichas::inicializa()
 	}
 }
 
+void ListaFichas::eliminar_fichas()
+{
+	for (int i=0; i<num;i++)
+	{
+			
+		delete lista_fichas[i];
+		
+		
+	}
+	num = 0;
+}
+
 Ficha* ListaFichas::buscar_lista_ficha(int x, int y)
 {
 	for (int i = 0; i < num; i++)
@@ -61,12 +73,11 @@ bool ListaFichas::buscar_lista_color(Color color)
 {
 	for (int i = 0; i < num; i++)
 	{
-		if ((lista_fichas[i]->GetColor() == color))
+		if ((lista_fichas[i]->GetColor() == color) || lista_fichas[i]->GetColor() == VERDE)
 			return true;
 	}
 	return false;
 }
-
 
 void ListaFichas::eliminar(int x, int y)
 {
