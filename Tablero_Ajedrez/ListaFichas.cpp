@@ -14,6 +14,7 @@ void ListaFichas::dibuja()
 {
 	for (int i = 0; i < num; i++)
 		lista_fichas[i]->Dibuja();
+	
 }
 
 void ListaFichas::inicializa()
@@ -207,7 +208,7 @@ Ficha* ListaFichas::posible_comida(Color micolor, Vector2D* donde_come, Vector2D
 		//	return NULL; //deberia sobrar, ya que si no hay de tu color ya has perdido.
 		//}
 	}
-	return false;
+	return NULL;
 }
 
 bool ListaFichas::dentro_de_tablero(int i, int j)

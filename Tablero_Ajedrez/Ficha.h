@@ -45,15 +45,14 @@ public:
 	virtual int GetPosX();
 	virtual int GetPosY();
 
-
-
 	//funcion que dibuja una ficha. La idea es que se llame a esta funcion 
 	//en otra funcion como "DibujarTablero()" que pertenezca a la clase "Tablero" o "Partida"
 	//igual que en las practicas con la clase "Mundo"
 	//Recibe como parametros los indices i j de la posicion de dicha ficha en el tablero
 	//mas info dentro de la funcion FALTA CODIGO DENTRO DE LA FUNCION
 	//void Dibuja(int i, int j);
-	virtual void Dibuja()=0;
+
+	virtual void Dibuja();
 	virtual void BorraFicha(int i, int j, Color col);
 	virtual void Mueve(int posX, int posY) = 0;
 

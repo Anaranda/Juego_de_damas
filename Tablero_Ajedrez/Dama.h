@@ -13,7 +13,7 @@ public:
 	Dama();
 	virtual void SetColor(Color col);
 	virtual void SetRadio(float rad);
-	virtual void SetPos(float ix, float iy);
+	virtual void SetPos(int ix, int iy);
 	virtual int GetPosX();
 	virtual int GetPosY();
 	//////////////////////////

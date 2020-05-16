@@ -1,7 +1,7 @@
 #pragma once
 #include "Ficha.h"
-#include"glut.h"
 #include <math.h>
+#include"glut.h"
 
 
 

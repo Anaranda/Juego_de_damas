@@ -1,14 +1,12 @@
 #include "Coordinador.h"
 #include <iostream>
 #include "ETSIDI.h"
-#include "Tablero.h"
-#include"glut.h"
 #include <thread>
 #include <chrono>
 #include<Windows.h>
+#include"glut.h"
 
 extern bool menu = true;
-
 
 CoordinadorEtsiDamas::CoordinadorEtsiDamas() //Constructor del coordinador 
 {
@@ -116,8 +114,9 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 			if (state == INICIO) {
 
+				ETSIDI::stopMusica();
 				ETSIDI::play("bin/sonidos/pulsar_escape.wav");
-				//ETSIDI::stopMusica();
+				
 				std::this_thread::sleep_for(std::chrono::seconds(1));
 				exit(0);
 
@@ -182,9 +181,7 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 void CoordinadorEtsiDamas::tecla(unsigned char key)
 {
-
 	if (state == INIJUEGO || state == INSTRUC || state == ABOUT|| state==INICIO) {
-
 		if (key == 27) {
 			exit(0);
 		}
@@ -197,7 +194,6 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 {
 	if (state == INICIO)  //Estado de INICIO
 	{
-
 		musica();
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Inicio.png").id);  //Al abrir el juego aparece la imagen de INICIO con el título del juego y los creadores
@@ -208,9 +204,13 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 1); glVertex2d(800, 0);
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
-	
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
+		
+		ETSIDI::setTextColor(1, 1, 1);
+		ETSIDI::setFont("bin/fuentes/Arcadepix_Plus.ttf", 24);
+		ETSIDI::printxy("PRESS RIGHT TO PLAY",255,400);
 	}
 
 	if (state == SELINIJUEGO)  //MENU inicial del juego
@@ -224,21 +224,17 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 1); glVertex2d(800, 0);
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		//glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
+		glEnable(GL_LIGHTING);
+		glDisable(GL_TEXTURE_2D);
 
 	}
 	if (state == INIJUEGO)  //MENU inicial del juego
 	{
-		
-		MiTablero.TexturaTablero();
+		glDisable(GL_LIGHTING);
 		MiTablero.DibujaTablero();
-
-
-
-		
-		
+		glEnable(GL_LIGHTING);
+		MiTablero.TexturaTablero();
 	}
 
 	if (state == SELINSTRUC)  //INSTRUCCIONES
@@ -254,8 +250,8 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
 	
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 
 	if (state == INSTRUC)  //INSTRUCCIONES
@@ -271,8 +267,8 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
 		//glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 	if (state == SELABOUT)  //INSTRUCCIONES
 	{
@@ -287,8 +283,8 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
 		//glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 	if (state == ABOUT)  //INSTRUCCIONES
 	{
@@ -303,8 +299,8 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		glTexCoord2d(1, 0); glVertex2d(800, 800);
 		glTexCoord2d(0, 0); glVertex2d(0, 800);
 		//glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 	}
 
 }

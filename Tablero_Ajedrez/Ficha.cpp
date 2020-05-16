@@ -8,32 +8,6 @@
 #define PX_Y  800
 
 using namespace std;
-//
-//Estado Ficha::GetEstado()
-//{
-//	return estado;
-//}
-//
-//
-//void Ficha::SetEstado(Estado est)
-//{
-//	estado = est;
-//}
-//
-//Tipo Ficha::GetTipo()
-//{
-//	return tipo;
-//}
-//
-//void Ficha::SetTipo(Tipo tip)
-//{
-//	tipo = tip;
-//}
-//
-//Color Ficha::GetColor()
-//{
-//	return color;
-//}
 
 void Ficha::SetColor(Color col)
 {
@@ -69,6 +43,55 @@ int Ficha::GetPosY()
 {
 	return posicion[1];
 }
+
+void Ficha::Dibuja()
+{
+	int x, y;
+	float theta;
+	radio = (PX_X / M) * 0.4; //definir en el set radio
+	
+	//Color de la ficha
+	if (color == ROJO)
+	{
+		glColor3f(1, 0, 0);//Pinta de color rojo la ficha (ROJO=0)
+	}
+	else if (color == VERDE) //color de cuando lo seleccionas
+	{
+		glColor3f(0, 1, 0);
+	}
+
+	else if (color == BLANCO)
+	{
+		glColor3f(1, 1, 1); //pinta de color blanco la ficha
+	}
+	x = posicion[1] * (PX_X / M) + (PX_X / (2 * M));
+	y = PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
+
+	/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
+
+	//DIBUJA CIRCULO
+	
+	glBegin(GL_POLYGON);
+	glTranslatef(x, y, 0);
+	for (int i = 0; i < 360; i++) {
+		theta = i * 3.1416 / 180;
+		glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
+	}
+	glTranslatef(-x, -y, 0);
+	glEnd();
+	glPopMatrix();
+	
+	
+}
+
+
+void Ficha::BorraFicha(int i, int j, Color col)
+{
+	/*estado = VACIO;
+	tipo = PEON;
+	color = col;*/
+}
+
 
 //void Ficha::Dibuja(int i, int j)
 //{
@@ -118,44 +141,3 @@ int Ficha::GetPosY()
 
 
 
-void Ficha::Dibuja()
-{
-	int x, y;
-	float theta;
-	radio = (PX_X / M) * 0.4; //definir en el set radio
-	glBegin(GL_POLYGON);
-
-	//Color de la ficha
-	if (color == ROJO)
-	{
-		glColor3f(1, 0, 0);//Pinta de color rojo la ficha (ROJO=0)
-	}
-	else if (color == VERDE) //color de cuando lo seleccionas
-	{
-		glColor3f(0, 1, 0);
-	}
-
-	else if (color == BLANCO)
-	{
-		glColor3f(1, 1, 1); //pinta de color blanco la ficha
-	}
-	x = posicion[1] * (PX_X / M) + (PX_X / (2 * M));
-	y = PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
-
-	/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
-
-	//DIBUJA CIRCULO
-	for (int i = 0; i < 360; i++) {
-		theta = i * 3.1416 / 180;
-		glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
-	}
-	glEnd();
-}
-
-
-void Ficha::BorraFicha(int i, int j, Color col)
-{
-	/*estado = VACIO;
-	tipo = PEON;
-	color = col;*/
-}

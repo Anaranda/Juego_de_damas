@@ -49,11 +49,15 @@ void Tablero::TexturaTablero()
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
-	glTexCoord2d(0, 1); glVertex2d(0, PX_Y);
-	glTexCoord2d(1, 1); glVertex2d(PX_X, PX_Y);
-	glTexCoord2d(1, 0); glVertex2d(PX_X, 0);
-	glTexCoord2d(0, 0); glVertex2d(0, 0);
+	glTexCoord2d(0, 1); glVertex3d(0, PX_Y,-0.01);
+	glTexCoord2d(1, 1); glVertex3d(PX_X, PX_Y,-0.01);
+	glTexCoord2d(1, 0); glVertex3d(PX_X, 0,-0.01);
+	glTexCoord2d(0, 0); glVertex3d(0, 0,-0.01);
 	glEnd();
+	glEnable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+
+
 }
 
 void Tablero::SelecFicha(int button, int state, int mouseX, int mouseY)
@@ -106,6 +110,13 @@ void Tablero::SelecFicha(int button, int state, int mouseX, int mouseY)
 			break;
 		}
 	case Tablero::ESPERANDO_2CLICK:
+
+		if (ficha_Selec == aux) {//Desmarcar la ficha antes elegida
+			ficha_Selec->SetColor(turno);
+			ficha_Selec = NULL;
+			estado = ESPERANDO_1CLICK;
+			break;
+		}
 
 		indices_finales[0] = ficha_Selec->GetPosX();
 		indices_finales[1] = ficha_Selec->GetPosY();

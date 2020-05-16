@@ -9,7 +9,6 @@ class CoordinadorEtsiDamas
 {
 
 public:
-	
 	//Métodos
 	CoordinadorEtsiDamas();
 	~CoordinadorEtsiDamas();
@@ -18,7 +17,6 @@ public:
 	void tecla(unsigned char key);
 	void dibuja();
 	void musica();
-
 
 protected:
 	//Miembros
