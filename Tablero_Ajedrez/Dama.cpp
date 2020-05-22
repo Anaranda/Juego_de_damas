@@ -59,9 +59,9 @@ void Dama::Dibuja()
 {
 	int x, y;
 	float theta;
-	radio = (PX_X / M) * 0.4; //definir en el set radio
+
 	glEnable(GL_TEXTURE_2D);
-	//Color de la ficha
+	
 	if (color == ROJO)
 	{
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/DamaRoja.png").id);//Pinta de color rojo la ficha (ROJO=0)
@@ -76,7 +76,6 @@ void Dama::Dibuja()
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/DamaBlanca.png").id); //pinta de color blanco la ficha
 	}
 
-
 	//El vector posicion corresponde con coordenadas en el dibujo (x,y).
 	//Lo ideal es que fuesen los indices (i,j) del elemento de la matriz del tablero
 	//y después, en función del tamaño del dibujo calcular las coordenadas (x,y)
@@ -84,23 +83,21 @@ void Dama::Dibuja()
 	//posicion.x=i*DIST_ENTRE_CUADRADOS + DISTANCIA_ENTRE_CUADRADOS/2 
 	//posicion.y=-j*DIST_ENTRE_CUADRADOS - DISTANCIA_ENTRE_CUADRADOS/2
 
-	//x = i * (PX_X / M) + (PX_X / (2 * M));
-	//y = PX_Y - (j * (PX_Y / M) + (PX_Y / (2 * M))); //CUIDADO CON EL OFFSET
-
 	x = posicion[1] * (PX_X / M) + (PX_X / (2 * M));
 	y = PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
-
-	/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
 
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
-	glTexCoord2d(0, 1); glVertex2d(x - 40, y - 40);
-	glTexCoord2d(1, 1); glVertex2d(x + 40, y - 40);
-	glTexCoord2d(1, 0); glVertex2d(x + 40, y + 40);
-	glTexCoord2d(0, 0); glVertex2d(x - 40, y + 40);
+	glTexCoord2d(0, 1); glVertex2d(x - radio, y - radio);
+	glTexCoord2d(1, 1); glVertex2d(x + radio, y - radio);
+	glTexCoord2d(1, 0); glVertex2d(x + radio, y + radio);
+	glTexCoord2d(0, 0); glVertex2d(x - radio, y + radio);
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	
+}
+
+void Dama::BorraFicha() {
+	delete this;
 }

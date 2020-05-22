@@ -68,7 +68,6 @@ void Peon::Dibuja()
 	radio = (PX_X / M) * 0.4; //definir en el set radio
 
 	glEnable(GL_TEXTURE_2D);
-	//Color de la ficha
 
 	if (color == ROJO)
 	{
@@ -97,11 +96,6 @@ void Peon::Dibuja()
 
 	x = posicion[1] * (PX_X / M) + (PX_X / (2 * M));
 	y = PX_Y - (posicion[0] * (PX_Y / M) + (PX_Y / (2 * M)));
-
-	/*cout << "Coordenadas:" << "(" << x << "," << y << ")" << endl;*/
-
-	//DIBUJA CIRCULO
-
 	
 	glDisable(GL_LIGHTING);
 	glBegin(GL_POLYGON);
@@ -113,14 +107,7 @@ void Peon::Dibuja()
 	glEnd();
 	glEnable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
-	/*glDisable(GL_LIGHTING);
-	glBegin(GL_POLYGON);
-	glTranslatef(x, y, 0);
-	for (int i = 0; i < 360; i=i+36) {
-		theta = i * 3.1416 / 180;
-		glVertex2f(x + radio * cos(theta), y + radio * sin(theta));
-	}
-	glTranslatef(-x, -y, 0);
-	glEnd();
-	glEnable(GL_LIGHTING);*/
+}
+void Peon::BorraFicha() {
+	delete this;
 }

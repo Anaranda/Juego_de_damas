@@ -1,10 +1,11 @@
 #include "Coordinador.h"
-#include <iostream>
 #include "ETSIDI.h"
 #include <thread>
 #include <chrono>
-#include<Windows.h>
 #include"glut.h"
+
+#define PX_X  800
+#define PX_Y  800
 
 extern bool menu = true;
 
@@ -24,18 +25,22 @@ void CoordinadorEtsiDamas::musica()  //Función para controlar la música
 
 void CoordinadorEtsiDamas::mouse(int button, int state, int m_x, int m_y) {
 
-	if (CoordinadorEtsiDamas::state==INIJUEGO) {
-
+	if (CoordinadorEtsiDamas::state == INIJUEGO) {
 		MiTablero.SelecFicha(button, state, m_x, m_y);
+		cout << "SelecFicha" << endl;
 	}
-	
 
+	else if (CoordinadorEtsiDamas::state == VSCPU) {
+		MiTableroCPU.SelecFicha(button, state, m_x, m_y);
+		cout << "SelecFichaVSCPU" << endl;
+	}
 }
 
 void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 {
-	
-	if (state!= INIJUEGO) {
+
+
+	if (state != INIJUEGO && state != VSCPU) {
 
 
 		switch (key)
@@ -49,6 +54,10 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 
 			if (state == SELINIJUEGO) {
+
+				state = SELVSCPU;
+			}
+			else if (state == SELVSCPU) {
 
 				state = SELINSTRUC;
 			}
@@ -70,6 +79,10 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 			}
 			else if (state == SELINSTRUC) {
 
+				state = SELVSCPU;
+			}
+			else if (state == SELVSCPU) {
+
 				state = SELINIJUEGO;
 			}
 			break;
@@ -88,14 +101,20 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 			}
 			else if (state == SELINIJUEGO) {
 
+				menu = true;
 				state = INIJUEGO;
-				
+
 				break;
 
 			}
 			else if (state == SELINSTRUC) {
 
 				state = INSTRUC;
+
+			}
+			else if (state == SELVSCPU) {
+
+				state = VSCPU;
 
 			}
 			else if (state == SELABOUT) {
@@ -116,12 +135,17 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 				ETSIDI::stopMusica();
 				ETSIDI::play("bin/sonidos/pulsar_escape.wav");
-				
+
 				std::this_thread::sleep_for(std::chrono::seconds(1));
 				exit(0);
 
 			}
 			else if (state == SELINIJUEGO) {
+
+				state = INICIO;
+
+			}
+			else if (state == SELVSCPU) {
 
 				state = INICIO;
 
@@ -141,6 +165,11 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 				state = SELINIJUEGO;
 
 			}
+			else if (state == VSCPU) {
+
+				state = SELVSCPU;
+
+			}
 			else if (state == INSTRUC) {
 
 				state = SELINSTRUC;
@@ -152,11 +181,14 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 			}
 
+			else if (state == FIN) {
+				state = SELINIJUEGO;
+
+			}
+
 			break;
 		}
-
 	}
-
 	else {
 
 		if (key == GLUT_KEY_LEFT)
@@ -169,10 +201,14 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 				state = SELINIJUEGO;
 
 			}
+			else if (state == VSCPU) {
+
+
+				state = SELVSCPU;
+			}
 		}
+	}
 
-
-}
 
 
 
@@ -181,7 +217,7 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 
 void CoordinadorEtsiDamas::tecla(unsigned char key)
 {
-	if (state == INIJUEGO || state == INSTRUC || state == ABOUT|| state==INICIO) {
+	if (state == INIJUEGO || state == INSTRUC || state == ABOUT || state == INICIO) {
 		if (key == 27) {
 			exit(0);
 		}
@@ -192,124 +228,172 @@ void CoordinadorEtsiDamas::tecla(unsigned char key)
 
 void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos estados
 {
-	if (state == INICIO)  //Estado de INICIO
-	{
+	switch (state) {
+	case INICIO: //Estado de INICIO
 		musica();
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Inicio.png").id);  //Al abrir el juego aparece la imagen de INICIO con el título del juego y los creadores
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		glEnd();
-		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-		
+		dibujaTextura("bin/imagenes/Inicio.png");
 		ETSIDI::setTextColor(1, 1, 1);
 		ETSIDI::setFont("bin/fuentes/Arcadepix_Plus.ttf", 24);
-		ETSIDI::printxy("PRESS RIGHT TO PLAY",255,400);
-	}
+		ETSIDI::printxy("PRESS RIGHT TO PLAY", 255, 400);
+		break;
 
-	if (state == SELINIJUEGO)  //MENU inicial del juego
-	{
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Sel_Juego.png").id);
+
+	case SELINIJUEGO:  //MENU inicial del juego
+		dibujaTextura("bin/imagenes/Sel_Juego.png");
+		MiTablero.inStateHUMAN = false;
+		break;
+
+
+	case INIJUEGO: //MENU inicial del juego
 		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		glEnd();
+		MiTablero.DibujaTablero();
 		glEnable(GL_LIGHTING);
-		glDisable(GL_TEXTURE_2D);
-
-	}
-	if (state == INIJUEGO)  //MENU inicial del juego
-	{
-
+		MiTablero.TexturaTablero();
+		MiTablero.inStateHUMAN = true;
 		if (MiTablero.fin_de_juego()) {
-			MiTablero.eliminar(); 
-			state = SELINIJUEGO;
-
+			state = FIN;
+			ETSIDI::setTextColor(255, 255, 0);
+			ETSIDI::setFont("bin/fuentes/Arcadepix Plus.ttf", 50);
+			ETSIDI::printxy("GAME OVER", 200.0, 400.0, 0.0);
+			ETSIDI::printxy("DOUBLE CLICK TO EXIT", 200.0, 400.0, 0.0);
 		}
+		break;
+
+
+	case SELVSCPU:  //MENU inicial del juego
+		dibujaTextura("bin/imagenes/Sel_Play_CPU.png");
+		MiTableroCPU.inStateCPU = false;
+		break;
+
+
+	case VSCPU: //MENU inicial del juego
+		glDisable(GL_LIGHTING);
+		MiTableroCPU.DibujaTablero();
+		glEnable(GL_LIGHTING);
+		MiTableroCPU.TexturaTablero();
+		MiTableroCPU.inStateCPU = true;
+
+		if (MiTableroCPU.fin_de_juego()) {
+			state = FIN;
+		}
+		break;
+
+
+	case SELINSTRUC:  //INSTRUCCIONES
+		dibujaTextura("bin/imagenes/Sel_Instruc.png");
+		break;
+
+
+	case INSTRUC:
+		dibujaTextura("bin/imagenes/IniInstruc.png");
+		break;
+
+
+	case SELABOUT:
+		dibujaTextura("bin/imagenes/Sel_About.png");
+		break;
+
+
+	case ABOUT:
+		dibujaTextura("bin/imagenes/IniAbout.png");
+		break;
+
+
+	case FIN:
+		state = SELINIJUEGO;
+		cout << "Cambia a Selini" << endl;
+		MiTablero.eliminar();
+		cout << "Elimina" << endl;
 		glDisable(GL_LIGHTING);
 		MiTablero.DibujaTablero();
 		glEnable(GL_LIGHTING);
 		MiTablero.TexturaTablero();
 
-	}
+		MiTablero.cambio_estado_juego();
+		MiTablero.cambio_turno();
 
-	if (state == SELINSTRUC)  //INSTRUCCIONES
-	{
 
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Sel_Instruc.png").id); 
+
+		//REVISA ESTO PARA QUE NO EMPIECEN LAS ROJAS 
+
+		//AHORA QUE LO PIENSO DEPENDE DE QUIEN GANE LA PARTIDA ASI QUE HAY QUE CAMBIAR EL TURNO EN SELECFICHA O PONER UN IF
+		//PONER UN TEXTO SOBRE EL TABLERO QUE NOS PIDA PULSAR UNA TECLA PARA PASAR A SELINIJUEGO Y ECHAR OTRA PARTIDA O LO QUE QUIERAS
+
+
+		//glEnable(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/IniAbout.png").id);
+		//glDisable(GL_LIGHTING);
+		//glBegin(GL_POLYGON);
+		//glColor3f(1, 1, 1);
+		//glTexCoord2d(0, 1); glVertex2d(0, 0);
+		//glTexCoord2d(1, 1); glVertex2d(800, 0);
+		//glTexCoord2d(1, 0); glVertex2d(800, 800);
+		//glTexCoord2d(0, 0); glVertex2d(0, 800);
+		////glEnable(GL_LIGHTING);
+		//glEnd();
+		//glDisable(GL_TEXTURE_2D);
+
+		cout << "Entramos en fin" << endl;
+		
+		//MiTablero.eliminar();
+		break;
+
+
+	case FINCPU:
+		state = SELVSCPU;
+		cout << "Cambia a SelVSCPU" << endl;
+		MiTableroCPU.eliminar();
+		cout << "Elimina" << endl;
 		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-	
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
+		MiTableroCPU.DibujaTablero();
+		glEnable(GL_LIGHTING);
+		MiTableroCPU.TexturaTablero();
+
+		MiTableroCPU.cambio_estado_juego();
+		MiTableroCPU.cambio_turno();
+
+
+		//REVISA ESTO PARA QUE NO EMPIECEN LAS ROJAS 
+
+		//AHORA QUE LO PIENSO DEPENDE DE QUIEN GANE LA PARTIDA ASI QUE HAY QUE CAMBIAR EL TURNO EN SELECFICHA O PONER UN IF
+		//PONER UN TEXTO SOBRE EL TABLERO QUE NOS PIDA PULSAR UNA TECLA PARA PASAR A SELINIJUEGO Y ECHAR OTRA PARTIDA O LO QUE QUIERAS
+
+
+		//glEnable(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/IniAbout.png").id);
+		//glDisable(GL_LIGHTING);
+		//glBegin(GL_POLYGON);
+		//glColor3f(1, 1, 1);
+		//glTexCoord2d(0, 1); glVertex2d(0, 0);
+		//glTexCoord2d(1, 1); glVertex2d(800, 0);
+		//glTexCoord2d(1, 0); glVertex2d(800, 800);
+		//glTexCoord2d(0, 0); glVertex2d(0, 800);
+		////glEnable(GL_LIGHTING);
+		//glEnd();
+		//glDisable(GL_TEXTURE_2D);
+
+		cout << "Entramos en fin CPU" << endl;
+
+		//MiTablero.eliminar();
+		break;
 	}
+}
 
-	if (state == INSTRUC)  //INSTRUCCIONES
-	{
+void CoordinadorEtsiDamas::dibujaTextura(const char* path) {
+	//Esta función imprime en toda la pantalla la imagen indicada
 
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/IniInstruc.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		//glEnable(GL_LIGHTING);
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-	}
-	if (state == SELABOUT)  //INSTRUCCIONES
-	{
-
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/Sel_About.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		//glEnable(GL_LIGHTING);
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-	}
-	if (state == ABOUT)  //INSTRUCCIONES
-	{
-
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/IniAbout.png").id);
-		glDisable(GL_LIGHTING);
-		glBegin(GL_POLYGON);
-		glColor3f(1, 1, 1);
-		glTexCoord2d(0, 1); glVertex2d(0, 0);
-		glTexCoord2d(1, 1); glVertex2d(800, 0);
-		glTexCoord2d(1, 0); glVertex2d(800, 800);
-		glTexCoord2d(0, 0); glVertex2d(0, 800);
-		//glEnable(GL_LIGHTING);
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-	}
-
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture(path).id);
+	glDisable(GL_LIGHTING);
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glTexCoord2d(0, 1); glVertex2d(0, 0);
+	glTexCoord2d(1, 1); glVertex2d(PX_X, 0);
+	glTexCoord2d(1, 0); glVertex2d(PX_X, PX_Y);
+	glTexCoord2d(0, 0); glVertex2d(0, PX_Y);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_LIGHTING);
 }
 
 

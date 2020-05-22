@@ -1,14 +1,9 @@
 #pragma once
 #include "Ficha.h"
 #include "glut.h"
-#include <math.h>
-
-
 
 class Dama : public Ficha
 {
-private:
-	//Color color;
 public:
 	Dama();
 	virtual ~Dama();
@@ -22,4 +17,5 @@ public:
 	virtual Tipo GetTipo();
 	virtual void Mueve(int pos_finX, int pos_finY);
 	virtual void Dibuja();
+	virtual void BorraFicha();
 };

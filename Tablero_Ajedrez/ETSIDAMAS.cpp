@@ -68,8 +68,6 @@ int main(int argc, char* argv[])
 
 void OnDraw(void)
 {
-
-
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
@@ -77,7 +75,6 @@ void OnDraw(void)
 	//aqui es donde hay que poner el código de dibujo
 	
 	EtsiDamas.dibuja();
-
 
 	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();

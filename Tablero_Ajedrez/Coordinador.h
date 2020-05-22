@@ -17,15 +17,18 @@ public:
 	void tecla(unsigned char key);
 	void dibuja();
 	void musica();
+	void dibujaTextura(const char* path);
+
+	//PERMITE LECTURA DEL ESTADO DESDE EL TABLERO
+	enum State //Se crea una enumeración con los posibles estados que va a adoptar la máquina de estados
+	{
+		INICIO, INIJUEGO, VSCPU, INSTRUC, ABOUT, FIN, FINCPU, SELINIJUEGO, SELVSCPU, SELINSTRUC, SELABOUT
+	};
+	State state;  //Se define una variable del tipo de la enumeración anterior
 
 protected:
 	//Miembros
 	Tablero MiTablero;
-	
-	enum State //Se crea una enumeración con los posibles estados que va a adoptar la máquina de estados
-	{
-		INICIO, INIJUEGO, INSTRUC, ABOUT, FIN, SELINIJUEGO,SELINSTRUC, SELABOUT
-	};
-	State state;  //Se define una variable del tipo de la enumeración anterior
+	Tablero MiTableroCPU;
 
 };

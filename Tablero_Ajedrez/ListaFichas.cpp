@@ -29,7 +29,7 @@ void ListaFichas::inicializa()
 				{
 					Ficha* aux = new Peon;
 					aux->SetPos(i, j);
-					aux->SetRadio(40);
+					aux->SetRadio(40.0f);
 					aux->SetColor(ROJO);
 					agregar(aux);
 				}
@@ -37,11 +37,10 @@ void ListaFichas::inicializa()
 				{
 					Ficha* aux = new Peon;
 					aux->SetPos(i, j);
-					aux->SetRadio(40);
+					aux->SetRadio(40.0f);
 					aux->SetColor(BLANCO);
 					agregar(aux);
 				}
-
 			}
 		}
 	}
@@ -51,10 +50,7 @@ void ListaFichas::eliminar_fichas()
 {
 	for (int i=0; i<num;i++)
 	{
-			
-		delete lista_fichas[i];
-		
-		
+		lista_fichas[i]->BorraFicha();
 	}
 	num = 0;
 }
@@ -87,16 +83,15 @@ void ListaFichas::eliminar(int x, int y)
 		if ((lista_fichas[i]->GetPosX() == x) && (lista_fichas[i]->GetPosY() == y))
 		{
 			index = i;
-			delete lista_fichas[i];
+			lista_fichas[i]->BorraFicha();
 			num--;
 			for (int i = index; i < num; i++)
 				lista_fichas[i] = lista_fichas[i + 1];
-
 		}
 	}
 }
 
-void ListaFichas::crear_dama(int x, int y)
+Ficha* ListaFichas::convertir_a_dama(int x, int y)
 {
 	Ficha* aux = new Dama;
 	aux->SetPos(x, y);
@@ -104,122 +99,96 @@ void ListaFichas::crear_dama(int x, int y)
 	aux->SetColor(buscar_lista_ficha(x, y)->GetColor());
 	eliminar(x, y);
 	agregar(aux);
+	return aux;
 }
 
-Ficha* ListaFichas::posible_comida(Color micolor, Vector2D* donde_come, Vector2D* donde_va) //comprueba si una ficha puede comer 1 primera vez
+ bool ListaFichas::posible_comida(Color turno) //comprueba si una ficha puede comer 1 primera vez
 {
 	Ficha* mificha;
+	inicializarPosibleComida();
 
 	for (int i = 0; i < num; i++)
 	{
 		mificha = lista_fichas[i];//mificha contiene la ficha que queremos ver si puede comer a sus adyacentes 
-		if (lista_fichas[i]->GetColor() == micolor || lista_fichas[i]->GetColor()==VERDE) //lo de verde es por si está seleccionada
+		if (lista_fichas[i]->GetColor() == turno || lista_fichas[i]->GetColor()==VERDE) //lo de verde es por si está seleccionada
 		{
 			if (lista_fichas[i]->GetTipo() == PEON)
 			{
-				if (micolor == ROJO)
+				if (turno == ROJO)
 				{
-
 					if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1)->GetColor() == BLANCO) //comprobamos que en su adyacente 1 hay ficha que comer
 					{
 						if (buscar_lista_ficha(mificha->GetPosX() + 2, mificha->GetPosY() - 2) == NULL && dentro_de_tablero(mificha->GetPosX() + 2, mificha->GetPosY() - 2))
 						{
-							donde_come->SetVector(mificha->GetPosX() + 1, mificha->GetPosY() - 1);
-							donde_va->SetVector(mificha->GetPosX() + 2, mificha->GetPosY() - 2);
-							return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+							agregarFichaPosibleComida(lista_fichas[i]);
 						}
 					}
-					else if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1)->GetColor() == BLANCO ) //comprobamos que en su adyacente 1 hay ficha que comer
+					if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1)->GetColor() == BLANCO ) //comprobamos que en su adyacente 1 hay ficha que comer
 					{
 						if (buscar_lista_ficha(mificha->GetPosX() + 2, mificha->GetPosY() + 2) == NULL && dentro_de_tablero(mificha->GetPosX() + 2, mificha->GetPosY() + 2))
 						{
-							donde_come->SetVector(mificha->GetPosX() + 1, mificha->GetPosY() + 1);
-							donde_va->SetVector(mificha->GetPosX() + 2, mificha->GetPosY() + 2);
-							return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+							agregarFichaPosibleComida(lista_fichas[i]);
 						}
 					}
-					/*else
-					{
-						return NULL;
-					}*/
 				}
-				else if (micolor == BLANCO)
+				else if (turno == BLANCO)
 				{
 					mificha = lista_fichas[i];//mificha contiene la ficha que queremos ver si puede comer a sus adyacentes 
 					if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1)->GetColor() == ROJO) //comprobamos que en su adyacente 1 hay ficha que comer
 					{
 						if (buscar_lista_ficha(mificha->GetPosX() - 2, mificha->GetPosY() - 2) == NULL && dentro_de_tablero(mificha->GetPosX() - 2, mificha->GetPosY() - 2))
 						{
-							donde_come->SetVector(mificha->GetPosX() - 1, mificha->GetPosY() - 1);
-							donde_va->SetVector(mificha->GetPosX() - 2, mificha->GetPosY() - 2);
-							return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+							agregarFichaPosibleComida(lista_fichas[i]);
 						}
 					}
-					else if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1)->GetColor() == ROJO) //comprobamos que en su adyacente 1 hay ficha que comer
+					if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1)->GetColor() == ROJO) //comprobamos que en su adyacente 1 hay ficha que comer
 					{
 						if (buscar_lista_ficha(mificha->GetPosX() - 2, mificha->GetPosY() + 2) == NULL && dentro_de_tablero(mificha->GetPosX() - 2, mificha->GetPosY() + 2))
 						{
-							donde_come->SetVector(mificha->GetPosX() - 1, mificha->GetPosY() + 1);
-							donde_va->SetVector(mificha->GetPosX() - 2, mificha->GetPosY() + 2);
-							return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+							agregarFichaPosibleComida(lista_fichas[i]);
 						}
 					}
-					/*else
-					{
-						return NULL;
-					}*/
 				}
 			}
 			else if (lista_fichas[i]->GetTipo() == DAMA)
 			{
-				if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1)->GetColor() != micolor ) //comprobamos que en su adyacente 1 hay ficha que comer
+				if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() - 1)->GetColor() != turno ) //comprobamos que en su adyacente 1 hay ficha que comer
 				{
 					if (buscar_lista_ficha(mificha->GetPosX() + 2, mificha->GetPosY() - 2) == NULL && dentro_de_tablero(mificha->GetPosX() + 2, mificha->GetPosY() - 2))
 					{
-						donde_come->SetVector(mificha->GetPosX() + 1, mificha->GetPosY() - 1);
-						donde_va->SetVector(mificha->GetPosX() + 2, mificha->GetPosY() - 2);
-						return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+						agregarFichaPosibleComida(lista_fichas[i]);
 					}
 				}
-				else if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1)->GetColor() != micolor) //comprobamos que en su adyacente 1 hay ficha que comer
+				else if (buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() + 1, mificha->GetPosY() + 1)->GetColor() != turno) //comprobamos que en su adyacente 1 hay ficha que comer
 				{
 					if (buscar_lista_ficha(mificha->GetPosX() + 2, mificha->GetPosY() + 2) == NULL && dentro_de_tablero(mificha->GetPosX() + 2, mificha->GetPosY() + 2))
 					{
-						donde_come->SetVector(mificha->GetPosX() + 1, mificha->GetPosY() + 1);
-						donde_va->SetVector(mificha->GetPosX() + 2, mificha->GetPosY() + 2);
-						return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+						agregarFichaPosibleComida(lista_fichas[i]);
 					}
 				}
-				else if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1)->GetColor() != micolor) //comprobamos que en su adyacente 1 hay ficha que comer
+				else if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() - 1)->GetColor() != turno) //comprobamos que en su adyacente 1 hay ficha que comer
 				{
 					if (buscar_lista_ficha(mificha->GetPosX() - 2, mificha->GetPosY() - 2) == NULL && dentro_de_tablero(mificha->GetPosX() - 2, mificha->GetPosY() - 2))
 					{
-						donde_come->SetVector(mificha->GetPosX() - 1, mificha->GetPosY() - 1);
-						donde_va->SetVector(mificha->GetPosX() - 2, mificha->GetPosY() - 2);
-						return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+						agregarFichaPosibleComida(lista_fichas[i]);
 					}
 				}
-				else if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1)->GetColor() != micolor) //comprobamos que en su adyacente 1 hay ficha que comer
+				else if (buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1) != NULL && buscar_lista_ficha(mificha->GetPosX() - 1, mificha->GetPosY() + 1)->GetColor() != turno) //comprobamos que en su adyacente 1 hay ficha que comer
 				{
 					if (buscar_lista_ficha(mificha->GetPosX() - 2, mificha->GetPosY() + 2) == NULL && dentro_de_tablero(mificha->GetPosX() - 2, mificha->GetPosY() + 2))
 					{
-						donde_come->SetVector(mificha->GetPosX() - 1, mificha->GetPosY() + 1);
-						donde_va->SetVector(mificha->GetPosX() - 2, mificha->GetPosY() + 2);
-						return lista_fichas[i]; //devuelve esta ficha xq puede comer libremente
+						agregarFichaPosibleComida(lista_fichas[i]);
 					}
 				}
-				/*else
-				{
-					return NULL;
-				}*/
 			}
 		}
-		//else
-		//{
-		//	return NULL; //deberia sobrar, ya que si no hay de tu color ya has perdido.
-		//}
 	}
-	return NULL;
+	if (existe_posible_comida()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 bool ListaFichas::dentro_de_tablero(int i, int j)
@@ -239,14 +208,27 @@ void ListaFichas::Mueve(Color color, int pos_iniX, int pos_iniY, int pos_finX, i
 	aux->SetColor(color);
 }
 
-bool ListaFichas::Pincho_en_ficha(int x, int y)
+bool ListaFichas::pincho_en_ficha(int x, int y)
 {
 	if (buscar_lista_ficha(x, y) != NULL) return true;
 	else	return false;
 }
 
-bool ListaFichas::existe_posible_comida(Color micolor)
+bool ListaFichas::existe_posible_comida()
 {
+	for (int i = 0; i < MAX_COMIDA; i++) {
+		if (fichasConPosibleComida[i] != NULL) {
+			return true;
+		}
+	}
+	return false;
+}
+bool ListaFichas::esFichaConComida(Ficha* f) {
+	for (int i = 0; i < MAX_COMIDA; i++) {
+		if (fichasConPosibleComida[i] ==f) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -257,3 +239,16 @@ ListaFichas::ListaFichas()
 		lista_fichas[i] = 0;
 }
 
+void ListaFichas::agregarFichaPosibleComida(Ficha* f) {
+	for (int i = 0; i < MAX_COMIDA; i++) {
+		if (fichasConPosibleComida[i] == NULL) {
+			fichasConPosibleComida[i] = f;
+			break;
+		}
+	}
+}
+void ListaFichas::inicializarPosibleComida() {
+	for (int i = 0; i < MAX_COMIDA; i++) {
+		fichasConPosibleComida[i] = NULL;
+	}
+}
