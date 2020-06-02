@@ -329,12 +329,11 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 					indices[1] += incrementoY;
 					if (muevo_y_como(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
 						fichas.posible_comida(turno) && fichas.esFichaConComida(ficha_Selec)) {
+						cout << "Encuentro doble comida" << endl;
 						cambio_estado();
 						break;
 					}
 					else {
-
-
 
 						cambio_turno();
 						cambio_estado();
@@ -386,7 +385,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 					i = ETSIDI::lanzaDado(8, 0);
 					j = ETSIDI::lanzaDado(8, 0);
 
-					cout <<"Ficha que analizo: "<< i << "," << j << endl;
+					cout << "Ficha que analizo: " << i << "," << j << endl;
 					cpu = fichas.buscar_lista_ficha(i, j);
 					ficha_Selec = cpu;
 					//cout << cpu->GetPosX() << cpu->GetPosY() << endl;
@@ -396,11 +395,11 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 
 						cout << "DETECTO FICHA ROJA, vamos que la ficha es roja" << endl;
 
-						
+
 						//ANALIZAMOS POSICIÓN INFERIOR IZDA
 
-						if (((fichas.pincho_en_ficha(cpu->GetPosX() + 1, cpu->GetPosY() - 1) == NULL)) && 
-							dentro_de_tablero(cpu->GetPosX() + 1, cpu->GetPosY() - 1) == true && 
+						if (((fichas.pincho_en_ficha(cpu->GetPosX() + 1, cpu->GetPosY() - 1) == NULL)) &&
+							dentro_de_tablero(cpu->GetPosX() + 1, cpu->GetPosY() - 1) == true &&
 							reglaCasillaNegra(cpu->GetPosX() + 1, cpu->GetPosY() - 1)) {
 
 							cout << "Ficha seleccionada: " << cpu->GetPosX() << cpu->GetPosY() << endl;
@@ -427,30 +426,30 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 							cout << "Posicion diagonal dcha: " << (cpu->GetPosX()) + 1 << (cpu->GetPosY()) + 1 << endl;
 
 
-								cpu->Mueve(cpu->GetPosX() + 1, cpu->GetPosY() + 1);
-								cout << "MUEVO EN DIAGONAL DCHA" << endl;
-								if (cpu->GetPosX() == 7) {
+							cpu->Mueve(cpu->GetPosX() + 1, cpu->GetPosY() + 1);
+							cout << "MUEVO EN DIAGONAL DCHA" << endl;
+							if (cpu->GetPosX() == 7) {
 
-									fichas.convertir_a_dama(cpu->GetPosX(), cpu->GetPosY());
-								}
-								mov_ok = true;
+								fichas.convertir_a_dama(cpu->GetPosX(), cpu->GetPosY());
+							}
+							mov_ok = true;
 
 						}
 
 						//ANALIZAMOS POSICIÓN SUPERIOR IZDA (DAMA)
 
-						else if(cpu->GetTipo()==DAMA){
+						else if (cpu->GetTipo() == DAMA) {
 							if (((fichas.pincho_en_ficha(cpu->GetPosX() - 1, cpu->GetPosY() - 1) == NULL)) && dentro_de_tablero(cpu->GetPosX() - 1, cpu->GetPosY() - 1) && reglaCasillaNegra(cpu->GetPosX() - 1, cpu->GetPosY() - 1)) {
-								
+
 								cout << "Ficha seleccionada: " << cpu->GetPosX() << cpu->GetPosY() << endl;
 
 								cout << "Posicion diagonal sup izda: " << (cpu->GetPosX()) - 1 << (cpu->GetPosY()) - 1 << endl;
 
 								cpu->Mueve(cpu->GetPosX() - 1, cpu->GetPosY() - 1);
 								cout << "MUEVO EN DIAGONAL IZDA SUP" << endl;
-								
+
 								mov_ok = true;
-							
+
 							}
 							else if (((fichas.pincho_en_ficha(cpu->GetPosX() - 1, cpu->GetPosY() + 1) == NULL)) && dentro_de_tablero(cpu->GetPosX() - 1, cpu->GetPosY() + 1) && reglaCasillaNegra(cpu->GetPosX() - 1, cpu->GetPosY() + 1)) {
 								cout << "Ficha seleccionada: " << cpu->GetPosX() << cpu->GetPosY() << endl;
@@ -463,12 +462,12 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 								mov_ok = true;
 							}
 						}
-						
+
 						else {
 
-								cpu = NULL;
-								cout << "NO" << endl;
-								mov_ok = false;
+							cpu = NULL;
+							cout << "NO" << endl;
+							mov_ok = false;
 
 
 						}
@@ -492,6 +491,9 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 					cpu = NULL;
 					ficha_Selec = NULL;
 					ficha_Selec_2 = NULL;
+					ficha_Selec_3 = NULL;
+					ficha_Selec_4 = NULL;
+					
 
 					m = ETSIDI::lanzaDado(8, 0);
 					n = ETSIDI::lanzaDado(8, 0);
@@ -501,10 +503,12 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 
 					ficha_Selec = cpu;
 					ficha_Selec_2 = cpu;
+					ficha_Selec_3 = cpu;
+					ficha_Selec_4 = cpu;
 
 					if (cpu != NULL && cpu->GetColor() == ROJO) {
 
-	
+
 						cout << "Ficha seleccionada: " << cpu->GetPosX() << cpu->GetPosY() << endl;
 
 
@@ -512,16 +516,16 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 						if (dentro_de_tablero(ficha_Selec->GetPosX() + 1, ficha_Selec->GetPosY() - 1) == true && fichas.buscar_lista_ficha((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1) != NULL) {
 
 							ficha_Selec = fichas.buscar_lista_ficha((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1);
-							cout << "Ficha diagonal izda: "<<ficha_Selec->GetPosX() << ficha_Selec->GetPosY() << endl;
-							cout << "Color de ficha diagonal: "<<ficha_Selec->GetColor() << endl;
+							cout << "Ficha diagonal izda: " << ficha_Selec->GetPosX() << ficha_Selec->GetPosY() << endl;
+							cout << "Color de ficha diagonal: " << ficha_Selec->GetColor() << endl;
 
 							if (ficha_Selec->GetColor() == BLANCO) {
 
 								cout << "COMESTIBLE_DIAGONAL_IZDA" << endl;
 
 								if (((fichas.pincho_en_ficha((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1) == NULL)) && dentro_de_tablero((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1) == true && reglaCasillaNegra((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1)) {
-
-									cpu->Mueve(ficha_Selec->GetPosX() + 1, ficha_Selec->GetPosY() - 1);
+									cout << "Ficha que me como: " << ficha_Selec->GetPosX() << ficha_Selec->GetPosY() << endl;
+									cpu->Mueve((ficha_Selec->GetPosX()) + 1, (ficha_Selec->GetPosY()) - 1);
 									fichas.eliminar(ficha_Selec->GetPosX(), ficha_Selec->GetPosY());
 									if (cpu->GetPosX() == 7) {
 
@@ -534,7 +538,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 							}
 						}
 
-						 else if (dentro_de_tablero(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) != NULL) {
+						 if (com_ok!= true && dentro_de_tablero((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) != NULL) {
 							//ficha_Selec_2->SetPos(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() - 1);
 							ficha_Selec_2 = fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1);
 							cout << "Ficha diagonal dcha: " << ficha_Selec_2->GetPosX() << ficha_Selec_2->GetPosY() << endl;
@@ -544,66 +548,68 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 
 								cout << "COMESTIBLE_DIAGONAL_DCHA" << endl;
 
-								if (((fichas.pincho_en_ficha(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() + 1) == NULL)) && dentro_de_tablero((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == true && reglaCasillaNegra((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1)) {
-									cpu->Mueve(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() + 1);
+								if (((fichas.pincho_en_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == NULL)) && dentro_de_tablero((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == true && reglaCasillaNegra((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1)) {
+									cout << "Ficha quue me como: " << ficha_Selec_2->GetPosX() << ficha_Selec_2->GetPosY() << endl;
+									cpu->Mueve((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1);
 									fichas.eliminar(ficha_Selec_2->GetPosX(), ficha_Selec_2->GetPosY());
 									if (cpu->GetPosX() == 7) {
 
 										fichas.convertir_a_dama(cpu->GetPosX(), cpu->GetPosY());
 									}
+								
 									cout << "COME_OK_2" << endl;
 									com_ok = true;
 									if (fichas.posible_comida(ROJO)) com_ok = false;
 								}
 							}
 						}
-						 else if (ficha_Selec->GetTipo()==DAMA && dentro_de_tablero(ficha_Selec->GetPosX() - 1, ficha_Selec->GetPosY() - 1) == true && fichas.buscar_lista_ficha((ficha_Selec->GetPosX()) - 1, (ficha_Selec->GetPosY()) - 1) != NULL) {
+						 if (com_ok != true && ficha_Selec_3->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) == true && fichas.buscar_lista_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) != NULL) {
 
-							ficha_Selec = fichas.buscar_lista_ficha((ficha_Selec->GetPosX()) - 1, (ficha_Selec->GetPosY()) - 1);
-							cout << "Ficha diagonal sup izda: " << ficha_Selec->GetPosX() << ficha_Selec->GetPosY() << endl;
-							cout << "Color de ficha diagonal: " << ficha_Selec->GetColor() << endl;
+							ficha_Selec_3 = fichas.buscar_lista_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1);
+							cout << "Ficha diagonal sup izda: " << ficha_Selec_3->GetPosX() << ficha_Selec_3->GetPosY() << endl;
+							cout << "Color de ficha diagonal: " << ficha_Selec_3->GetColor() << endl;
 
-							if (ficha_Selec->GetColor() == BLANCO) {
+							if (ficha_Selec_3->GetColor() == BLANCO) {
 
 								cout << "COMESTIBLE_DIAGONAL_SUP_IZDA" << endl;
 
-								if (((fichas.pincho_en_ficha((ficha_Selec->GetPosX()) - 1, (ficha_Selec->GetPosY()) - 1) == NULL)) && dentro_de_tablero((ficha_Selec->GetPosX()) - 1, (ficha_Selec->GetPosY()) - 1) == true && reglaCasillaNegra((ficha_Selec->GetPosX()) - 1, (ficha_Selec->GetPosY()) - 1)) {
+								if (((fichas.pincho_en_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) == NULL)) && dentro_de_tablero((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) == true && reglaCasillaNegra((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1)) {
+									cout << "Ficha quue me como: " << ficha_Selec_3->GetPosX() << ficha_Selec_3->GetPosY() << endl;
+									cpu->Mueve((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1);
+									fichas.eliminar(ficha_Selec_3->GetPosX(), ficha_Selec_3->GetPosY());
 
-									cpu->Mueve(ficha_Selec->GetPosX() - 1, ficha_Selec->GetPosY() - 1);
-									fichas.eliminar(ficha_Selec->GetPosX(), ficha_Selec->GetPosY());
-									
-									cout << "COME_OK_1" << endl;
+									cout << "COME_OK_1_DAMA" << endl;
 									com_ok = true;
 									if (fichas.posible_comida(ROJO)) com_ok = false;
 								}
 							}
 						}
 
-						 else if (ficha_Selec_2->GetTipo() == DAMA && dentro_de_tablero(ficha_Selec_2->GetPosX() - 1, ficha_Selec_2->GetPosY() + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) - 1, (ficha_Selec_2->GetPosY()) + 1) != NULL) {
+						 if (com_ok != true && ficha_Selec_4->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) != NULL) {
 							//ficha_Selec_2->SetPos(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() - 1);
-							ficha_Selec_2 = fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) - 1, (ficha_Selec_2->GetPosY()) + 1);
-							cout << "Ficha diagonal dcha: " << ficha_Selec_2->GetPosX() << ficha_Selec_2->GetPosY() << endl;
-							cout << "Color de ficha diagonal: " << ficha_Selec_2->GetColor() << endl;
+							ficha_Selec_4 = fichas.buscar_lista_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1);
+							cout << "Ficha diagonal dcha: " << ficha_Selec_4->GetPosX() << ficha_Selec_4->GetPosY() << endl;
+							cout << "Color de ficha diagonal: " << ficha_Selec_4->GetColor() << endl;
 
-							if (ficha_Selec_2->GetColor() == BLANCO) {
+							if (ficha_Selec_4->GetColor() == BLANCO) {
 
-								cout << "COMESTIBLE_DIAGONAL_DCHA" << endl;
+								cout << "COMESTIBLE_DIAGONAL_SUP_DCHA" << endl;
 
-								if (((fichas.pincho_en_ficha(ficha_Selec_2->GetPosX() - 1, ficha_Selec_2->GetPosY() + 1) == NULL)) && dentro_de_tablero(ficha_Selec_2->GetPosX() - 1, ficha_Selec_2->GetPosY() + 1) == true && reglaCasillaNegra(ficha_Selec_2->GetPosX() - 1, ficha_Selec_2->GetPosY() + 1)) {
+								if (((fichas.pincho_en_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == NULL)) && dentro_de_tablero((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == true && reglaCasillaNegra((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1)) {
+									cout<<"Ficha quue me como: " << ficha_Selec_4->GetPosX() << ficha_Selec_4->GetPosY() << endl;
+									cpu->Mueve((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1);
+									fichas.eliminar(ficha_Selec_4->GetPosX(), ficha_Selec_4->GetPosY());
 									
-									cpu->Mueve(ficha_Selec_2->GetPosX() - 1, ficha_Selec_2->GetPosY() + 1);
-									fichas.eliminar(ficha_Selec_2->GetPosX(), ficha_Selec_2->GetPosY());
-									
-									cout << "COME_OK_2" << endl;
+									cout << "COME_OK_2_DAMA" << endl;
 									com_ok = true;
 									if (fichas.posible_comida(ROJO)) com_ok = false;
 								}
 							}
 						}
-				
 
 
-						else {
+
+						/*if (1){
 
 							cpu = NULL;
 							ficha_Selec = NULL;
@@ -612,7 +618,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 							com_ok = false;
 
 
-						}
+						}*/
 					}
 
 				}
@@ -624,7 +630,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 		}
 	}
 }
-		
+
 
 
 bool Tablero::reglaCasillaNegra(int i, int j)
@@ -640,9 +646,9 @@ void Tablero::paso_a_indices(int mouseX, int mouseY, int* indices)
 	//Esta función nos pasa de las coordenadas del tablero a indices de la matriz, no vuelve nada HACE PASO POR REFERENCIA DE VECTOR INDICES
 	//if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	//{
-		indices[1] = trunc(mouseX / (PX_X / M)); // el eje x corresponde con el indice j (COLUMNAS)
-		indices[0] = trunc(mouseY / (PX_Y / M)); //el eje y corresponde con el indice i (FILAS)
-	//}
+	indices[1] = trunc(mouseX / (PX_X / M)); // el eje x corresponde con el indice j (COLUMNAS)
+	indices[0] = trunc(mouseY / (PX_Y / M)); //el eje y corresponde con el indice i (FILAS)
+//}
 }
 
 bool Tablero::ficha_mia(Ficha* ficha)
@@ -661,10 +667,10 @@ void Tablero::cambio_turno()
 
 void Tablero::cambio_estado()
 {
-	if (estado==ESPERANDO_1CLICK)
+	if (estado == ESPERANDO_1CLICK)
 		estado = ESPERANDO_2CLICK;
-	else if(estado==ESPERANDO_2CLICK)
-		estado=ESPERANDO_1CLICK;
+	else if (estado == ESPERANDO_2CLICK)
+		estado = ESPERANDO_1CLICK;
 }
 
 bool Tablero::dentro_de_tablero(int i, int j)
@@ -722,16 +728,16 @@ bool Tablero::direccion_correcta(int posX, int posY, int posVerdeX, int posVerde
 			return false;
 	}
 
-	
+
 }
 
 bool Tablero::muevo_a_vacio_simple(int posX, int posY, int posVerdeX, int posVerdeY)
 {
 	//si pincho en un sitio sin ficha, dentro del tablero, casilla negra, a distancia 1 y en la dirección correcta
-	if (!fichas.pincho_en_ficha(posX, posY) && 
-		dentro_de_tablero(posX, posY) && 
-		reglaCasillaNegra(posX, posY) && 
-		movimiento_simple(posX, posY, posVerdeX, posVerdeY) && 
+	if (!fichas.pincho_en_ficha(posX, posY) &&
+		dentro_de_tablero(posX, posY) &&
+		reglaCasillaNegra(posX, posY) &&
+		movimiento_simple(posX, posY, posVerdeX, posVerdeY) &&
 		direccion_correcta(posX, posY, posVerdeX, posVerdeY))
 	{
 		return true;
@@ -747,10 +753,10 @@ bool Tablero::muevo_a_vacio_simple(int posX, int posY, int posVerdeX, int posVer
 bool Tablero::muevo_y_como(int posX, int posY, int posVerdeX, int posVerdeY)
 {
 
-	if (!fichas.pincho_en_ficha(posX, posY) && 
-		dentro_de_tablero(posX, posY) && 
-		reglaCasillaNegra(posX, posY) && 
-		movimiento_comida_simple(posX, posY, posVerdeX, posVerdeY) && 
+	if (!fichas.pincho_en_ficha(posX, posY) &&
+		dentro_de_tablero(posX, posY) &&
+		reglaCasillaNegra(posX, posY) &&
+		movimiento_comida_simple(posX, posY, posVerdeX, posVerdeY) &&
 		direccion_correcta(posX, posY, posVerdeX, posVerdeY)) {
 
 		return true;
@@ -764,7 +770,7 @@ bool Tablero::fin_de_juego()
 	if (fichas.buscar_lista_color(turno) == false) {
 
 
-		
+
 		return true;
 
 

@@ -27,6 +27,8 @@ public:
 	Color turno=BLANCO; // es el del color de ficha, en este caso solo podrá ser o ROJO o BLANCO
 	Ficha* ficha_Selec = NULL;
 	Ficha* ficha_Selec_2 = NULL;
+	Ficha* ficha_Selec_3 = NULL;
+	Ficha* ficha_Selec_4 = NULL;
 	Ficha* cpu = NULL;
 	enum  Estado { ESPERANDO_1CLICK, ESPERANDO_2CLICK }; // los dos estados en los que puede estar el tablero a la hora de jugar
 	Estado estado;
