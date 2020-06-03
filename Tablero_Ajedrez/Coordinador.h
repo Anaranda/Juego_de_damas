@@ -30,5 +30,6 @@ protected:
 	//Miembros
 	Tablero MiTablero;
 	Tablero MiTableroCPU;
+	Tablero MiTableroCPUArbol;
 
 };

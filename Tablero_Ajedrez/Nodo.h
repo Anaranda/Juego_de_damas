@@ -19,12 +19,13 @@ private:
 public:
     
     Nodo();
-    ~Nodo();
+    //virtual ~Nodo();
     Nodo* agregarHijo();
     Nodo* getHijo(int index);
     Nodo* getPadre();
     int getNumHijos();
     void eliminarNodo();
+    void setPadre(Nodo* padre);
     void setInfo(ListaFichas);
     ListaFichas getInfo();
     

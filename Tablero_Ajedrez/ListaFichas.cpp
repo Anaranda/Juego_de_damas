@@ -17,6 +17,24 @@ void ListaFichas::dibuja()
 	
 }
 
+void ListaFichas::copiaDesde(ListaFichas origen) {
+	eliminar_fichas();
+	for (int i = 0; i < origen.num; i++) {
+		Ficha* aux = NULL;
+		if (origen.lista_fichas[i]->GetTipo() == PEON) {
+			aux = new Peon;
+		}
+		else if (origen.lista_fichas[i]->GetTipo() == DAMA) {
+			aux = new Dama;
+		}
+		aux->SetPos(origen.lista_fichas[i]->GetPosX(),
+			origen.lista_fichas[i]->GetPosY());
+		aux->SetRadio(40.0f);
+		aux->SetColor(origen.lista_fichas[i]->GetColor());
+		agregar(aux);
+	}
+}
+
 void ListaFichas::inicializa()
 {
 	for (int i = 0; i < 8; i++)
@@ -274,4 +292,15 @@ bool ListaFichas::operator!=(ListaFichas f) {
 		}
 	}
 	return false;
+}
+
+float ListaFichas::ratioFichas() {
+	int blancas = 0, rojas = 0;
+	for (int i = 0; i < num; i++) {
+		if (lista_fichas[i]->GetColor() == ROJO)
+			rojas++;
+		else if (lista_fichas[i]->GetColor() == BLANCO)
+			blancas++;
+	}
+	return static_cast <float> (rojas) / static_cast <float> (blancas);
 }

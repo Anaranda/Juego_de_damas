@@ -5,17 +5,16 @@ Nodo::Nodo() {
 	padre = 0;
 
 }
-Nodo::~Nodo() {
-	this->eliminarNodo();
-}
+
 
 Nodo* Nodo::agregarHijo() {
 	this->hijo.push_back(new Nodo);
+	this->hijo[nhijos]->padre = this;
 	return this->hijo[nhijos++];
 }
 
 void Nodo::setInfo(ListaFichas _fichas) {
-	fichas = _fichas;
+	fichas.copiaDesde(_fichas);
 }
 
 ListaFichas Nodo::getInfo() {
@@ -35,36 +34,40 @@ Nodo* Nodo::getHijo(int index) {
 void Nodo::eliminarNodo() {
 	/*El siguiente código elimina el nodo en cuestión y todos los nodos inferiores.*/
 
-	Nodo* aux, * padre;
+	Nodo* aux, * _padre;
 	aux = this;
-	padre = this->padre;
+	_padre = padre;
 	if (aux->nhijos != 0) {
 		do {
 			while (aux->nhijos != 0) {//Este bucle llega hasta el hijo más lejano
-				aux = aux->hijo[nhijos - 1];//Salto de nodo en nodo
+				aux = aux->hijo[aux->nhijos - 1];//Salto de nodo en nodo
 			}
-			padre = aux->padre;
+			_padre = aux->padre;
 			delete aux;
-			aux = padre;
+			aux = _padre;
 			aux->nhijos--;
 			aux->hijo.pop_back();
-			if (aux->nhijos == 0) {
-				aux = aux->padre;
+			if (aux->nhijos != 0) {
+				aux = aux->hijo[aux->nhijos - 1];
 			}
 		} while (aux != this);
 	}
-	if (padre != 0) {
+	if (aux->padre != 0) {
 		int i = 0;
-		for (i; i < padre->nhijos; i++) {
-			if (padre->hijo[i] == this) {
+		for (i; i < _padre->nhijos; i++) {
+			if (_padre->hijo[i] == this) {
 				break;
 			}
 		}
-		delete padre->hijo[i];
-		padre->hijo.erase(padre->hijo.begin() + i);
-		padre->nhijos--;
+		delete _padre->hijo[i];
+		_padre->hijo.erase(_padre->hijo.begin() + i);
+		_padre->nhijos--;
 	}
 	delete this;
+}
+
+void Nodo::setPadre(Nodo* _padre) {
+	padre = _padre;
 }
 
 int Nodo::getNumHijos() {

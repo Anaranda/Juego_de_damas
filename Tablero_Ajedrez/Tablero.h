@@ -23,6 +23,8 @@ public:
 	bool estado_inicial = true;
 	bool inStateHUMAN = false;
 	bool inStateCPU = false;
+	bool inStateCPUArbol = false;
+	bool inPlayCPU = false;
 	//NUEVO/////////////////////////////////
 	Color turno=BLANCO; // es el del color de ficha, en este caso solo podrá ser o ROJO o BLANCO
 	Ficha* ficha_Selec = NULL;

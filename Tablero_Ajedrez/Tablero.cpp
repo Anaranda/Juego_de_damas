@@ -1,4 +1,5 @@
 #include "Tablero.h"
+#include "Arbol.h"
 #include "Ficha.h"
 #include <iostream>
 
@@ -28,7 +29,7 @@ void Tablero::Inicializa()
 }
 
 void Tablero::SetListaFichas(ListaFichas _fichas) {
-	fichas = _fichas;
+	fichas.copiaDesde(_fichas);
 }
 
 ListaFichas Tablero::GetListaFichas() {
@@ -88,13 +89,13 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 			//comprueba si ha clicado sobre una ficha:
 			if (aux == NULL || !ficha_mia(aux) || (fichas.posible_comida(turno) && !fichas.esFichaConComida(aux))) //si esta vacio o si no es mi ficha o existe una ficha que puede comer y aux es distinta de esa:
 			{
-				ETSIDI::play("bin/sonidos/draughts_not_ok.wav");
+				if(!inPlayCPU)ETSIDI::play("bin/sonidos/draughts_not_ok.wav");
 				aux = NULL; //por si acaso que apunte a null aunque igual esta linea no hace falta
 				break; //si clica sobre vacio, fuera del tablero, no es de su color
 			}
 			else //en caso de que haya una ficha, sea mia y no hay ficha que pueda comer o la hay pero la he seleccionado:
 			{
-				ETSIDI::play("bin/sonidos/draught_ok_move.mp3");
+				if (!inPlayCPU)ETSIDI::play("bin/sonidos/draught_ok_move.mp3");
 				//guardo la ficha seleccionada
 				ficha_Selec = aux;
 				ficha_Selec->SetColor(VERDE);
@@ -192,6 +193,14 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 
 					cambio_turno();
 					cambio_estado();
+					ficha_Selec = NULL;
+				}
+
+			}
+			else {
+				if (inPlayCPU) {
+					cambio_estado();
+					ficha_Selec->SetColor(turno);
 					ficha_Selec = NULL;
 				}
 			}
@@ -493,7 +502,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 					ficha_Selec_2 = NULL;
 					ficha_Selec_3 = NULL;
 					ficha_Selec_4 = NULL;
-					
+
 
 					m = ETSIDI::lanzaDado(8, 0);
 					n = ETSIDI::lanzaDado(8, 0);
@@ -538,7 +547,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 							}
 						}
 
-						 if (com_ok!= true && dentro_de_tablero((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) != NULL) {
+						if (com_ok != true && dentro_de_tablero((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1) != NULL) {
 							//ficha_Selec_2->SetPos(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() - 1);
 							ficha_Selec_2 = fichas.buscar_lista_ficha((ficha_Selec_2->GetPosX()) + 1, (ficha_Selec_2->GetPosY()) + 1);
 							cout << "Ficha diagonal dcha: " << ficha_Selec_2->GetPosX() << ficha_Selec_2->GetPosY() << endl;
@@ -556,14 +565,14 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 
 										fichas.convertir_a_dama(cpu->GetPosX(), cpu->GetPosY());
 									}
-								
+
 									cout << "COME_OK_2" << endl;
 									com_ok = true;
 									if (fichas.posible_comida(ROJO)) com_ok = false;
 								}
 							}
 						}
-						 if (com_ok != true && ficha_Selec_3->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) == true && fichas.buscar_lista_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) != NULL) {
+						if (com_ok != true && ficha_Selec_3->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) == true && fichas.buscar_lista_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1) != NULL) {
 
 							ficha_Selec_3 = fichas.buscar_lista_ficha((ficha_Selec_3->GetPosX()) - 1, (ficha_Selec_3->GetPosY()) - 1);
 							cout << "Ficha diagonal sup izda: " << ficha_Selec_3->GetPosX() << ficha_Selec_3->GetPosY() << endl;
@@ -585,7 +594,7 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 							}
 						}
 
-						 if (com_ok != true && ficha_Selec_4->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) != NULL) {
+						if (com_ok != true && ficha_Selec_4->GetTipo() == DAMA && dentro_de_tablero((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == true && fichas.buscar_lista_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) != NULL) {
 							//ficha_Selec_2->SetPos(ficha_Selec_2->GetPosX() + 1, ficha_Selec_2->GetPosY() - 1);
 							ficha_Selec_4 = fichas.buscar_lista_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1);
 							cout << "Ficha diagonal dcha: " << ficha_Selec_4->GetPosX() << ficha_Selec_4->GetPosY() << endl;
@@ -596,10 +605,10 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 								cout << "COMESTIBLE_DIAGONAL_SUP_DCHA" << endl;
 
 								if (((fichas.pincho_en_ficha((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == NULL)) && dentro_de_tablero((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1) == true && reglaCasillaNegra((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1)) {
-									cout<<"Ficha quue me como: " << ficha_Selec_4->GetPosX() << ficha_Selec_4->GetPosY() << endl;
+									cout << "Ficha quue me como: " << ficha_Selec_4->GetPosX() << ficha_Selec_4->GetPosY() << endl;
 									cpu->Mueve((ficha_Selec_4->GetPosX()) - 1, (ficha_Selec_4->GetPosY()) + 1);
 									fichas.eliminar(ficha_Selec_4->GetPosX(), ficha_Selec_4->GetPosY());
-									
+
 									cout << "COME_OK_2_DAMA" << endl;
 									com_ok = true;
 									if (fichas.posible_comida(ROJO)) com_ok = false;
@@ -629,6 +638,138 @@ void Tablero::SelecFicha(int mouseX, int mouseY)
 			}
 		}
 	}
+
+	else if (inStateCPUArbol) {
+		if (turno == BLANCO) {
+			switch (estado)
+			{
+			case Tablero::ESPERANDO_1CLICK: //aquí se gestiona todo lo que tiene que ver con el primer click
+				//El primer click solo puede ser valido si:
+				//he seleccionado una ficha, es de mi color
+				//en caso de que haya alguna que pueda comer, debo seleccionar esa.
+
+				//comprueba si ha clicado sobre una ficha:
+				if (aux == NULL || !ficha_mia(aux) || (fichas.posible_comida(turno) && !fichas.esFichaConComida(aux))) //si esta vacio o si no es mi ficha o existe una ficha que puede comer y aux es distinta de esa:
+				{
+					ETSIDI::play("bin/sonidos/draughts_not_ok.wav");
+					aux = NULL; //por si acaso que apunte a null aunque igual esta linea no hace falta
+					break; //si clica sobre vacio, fuera del tablero, no es de su color
+				}
+				else //en caso de que haya una ficha, sea mia y no hay ficha que pueda comer o la hay pero la he seleccionado:
+				{
+					ETSIDI::play("bin/sonidos/draught_ok_move.mp3");
+					//guardo la ficha seleccionada
+					ficha_Selec = aux;
+					ficha_Selec->SetColor(VERDE);
+
+					//ETSIDI::stopMusica();
+
+
+					//cambio el estado pero no se cambia el turno ojo:
+					cambio_estado();
+
+					aux = NULL;// igual sobra pero por si acaso
+					break;
+				}
+			case Tablero::ESPERANDO_2CLICK:
+
+				if (ficha_Selec == aux) {//Desmarcar la ficha antes elegida
+					ficha_Selec->SetColor(turno);
+					ficha_Selec = NULL;
+					cambio_estado();
+					break;
+				}
+
+				//aquí se gestiona todo lo que tiene que ver con el segundo click
+				//el segundo click es correcto si:
+					//1- la casilla está vacia
+					//2- es dirección correcta y 1 máx si no come y 2 máx si puede comer
+					//3- si come, y no puede seguir comiendo esa posición (el click es correcto pero sigue )
+
+				//en el segundo click tiene que:
+				//moverse a un sitio vacio:
+					//si esta el sitio vacio, direccion correcta, es negro y es de distancia 1 !Y NO PODÍA COMER!
+				//comer:
+					//hay una ficha enemiga en medio y distancia 2 (si puede seguir comiendo se mueve a ese sitio pero no cambia el turno ni el estado)
+				//coronar:
+					//mueve a casilla negra, direccion correcta, distancia 1 y posicion final final última contraria (blancas fila 0 y rojas fila 7) Y ERES UN PEON!!!!
+				//MOVER A UN SITIO VACIO
+				if (muevo_a_vacio_simple(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
+					!fichas.posible_comida(turno))
+				{
+					//si se cumple esto puedo realizar mi movimiento:
+					ficha_Selec->Mueve(indices[0], indices[1]);
+					ficha_Selec->SetColor(turno);
+					if ((indices[0] == 7 && turno == ROJO) || (indices[0] == 0 && turno == BLANCO)) {
+
+						fichas.convertir_a_dama(indices[0], indices[1]);
+					}
+					cambio_turno();
+					cambio_estado();
+					ficha_Selec = NULL; //Es importante esto para olvidar la ficha anterior seleccionada
+					break;
+				}
+				//else if (muevo_y_como(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
+				//	fichas.posible_comida(turno) && fichas.esFichaConComida(ficha_Selec)) {
+				//	do {
+				//		int incrementoX = (indices[0] - ficha_Selec->GetPosX());
+				//		int incrementoY = (indices[1] - ficha_Selec->GetPosY());
+				//		fichas.eliminar((incrementoX / 2) + ficha_Selec->GetPosX(), (incrementoY / 2) + ficha_Selec->GetPosY());
+				//		ficha_Selec->Mueve(indices[0], indices[1]);
+				//		ficha_Selec->SetColor(turno);
+				//		if ((indices[0] == 7 && turno == ROJO) || (indices[0] == 0 && turno == BLANCO)) {
+				//			ficha_Selec = fichas.convertir_a_dama(ficha_Selec->GetPosX(), ficha_Selec->GetPosY());
+				//		}
+				//		indices[0] += incrementoX;
+				//		indices[1] += incrementoY;
+				//	} while (muevo_y_como(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
+				//		fichas.posible_comida(turno) && fichas.esFichaConComida(ficha_Selec));
+				//	cambio_turno();
+				//	cambio_estado();
+				//	ficha_Selec = NULL;
+				//}
+
+
+				else if (muevo_y_como(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
+					fichas.posible_comida(turno) && fichas.esFichaConComida(ficha_Selec))
+				{
+					int incrementoX = (indices[0] - ficha_Selec->GetPosX());
+					int incrementoY = (indices[1] - ficha_Selec->GetPosY());
+					fichas.eliminar((incrementoX / 2) + ficha_Selec->GetPosX(), (incrementoY / 2) + ficha_Selec->GetPosY());
+					ficha_Selec->Mueve(indices[0], indices[1]);
+					ficha_Selec->SetColor(turno);
+					if ((indices[0] == 7 && turno == ROJO) || (indices[0] == 0 && turno == BLANCO))
+					{
+						ficha_Selec = fichas.convertir_a_dama(ficha_Selec->GetPosX(), ficha_Selec->GetPosY());
+					}
+					indices[0] += incrementoX;
+					indices[1] += incrementoY;
+					if (muevo_y_como(indices[0], indices[1], ficha_Selec->GetPosX(), ficha_Selec->GetPosY()) &&
+						fichas.posible_comida(turno) && fichas.esFichaConComida(ficha_Selec)) {
+						cambio_estado();
+						break;
+					}
+					else {
+
+
+
+						cambio_turno();
+						cambio_estado();
+						ficha_Selec = NULL;
+					}
+				}
+				break;
+
+			}
+		}
+		if (turno == ROJO) {
+			
+			Arbol arbol(2, fichas);
+			fichas = arbol.mejorJugada();
+			cambio_turno();
+		}
+	}
+
 }
 
 

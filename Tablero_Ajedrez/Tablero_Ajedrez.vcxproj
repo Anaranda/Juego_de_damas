@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\include\ETSIDI;C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\include\GL;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\include\GL;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\include\ETSIDI;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\lib;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\include\ETSIDI;C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\include\GL;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\include\GL;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\include\ETSIDI;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\lib;C:\Users\ana_a\Desktop\Tablero_Ajedrez_Ana\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\include\ETSIDI;C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\include\GL;C:\Users\halex\Desktop\Tablero_Ajedrez\include\GL;C:\Users\halex\Desktop\Tablero_Ajedrez\include\ETSIDI;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_30_05_2020\lib;C:\Users\halex\Desktop\Tablero_Ajedrez\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\include\ETSIDI;C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\include\GL;C:\Users\halex\Desktop\Tablero_Ajedrez\include\GL;C:\Users\halex\Desktop\Tablero_Ajedrez\include\ETSIDI;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\ana_a\Desktop\Trabajo_Infor_20\Tablero_Ajedrez_03_06_2020\lib;C:\Users\halex\Desktop\Tablero_Ajedrez\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

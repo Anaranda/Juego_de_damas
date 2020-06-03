@@ -19,6 +19,7 @@ public:
 	void dibuja();
 	//void mueve();
 	void inicializa();
+	void copiaDesde(ListaFichas);
 	void eliminar_fichas();
 	Ficha* buscar_lista_ficha(int x, int y);
 
@@ -38,6 +39,7 @@ public:
 	Ficha* operator[](int);
 	bool operator!=(ListaFichas);
 	int getNumFichas();
+	float ratioFichas();
 private:
 	Ficha* lista_fichas[MAX_FICHAS];
 	Ficha* fichasConPosibleComida[MAX_COMIDA];

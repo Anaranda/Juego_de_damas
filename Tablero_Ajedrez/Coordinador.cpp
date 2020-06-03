@@ -20,7 +20,7 @@ CoordinadorEtsiDamas::~CoordinadorEtsiDamas()  //Destructor
 
 void CoordinadorEtsiDamas::musica()  //Función para controlar la música
 {
-	ETSIDI::playMusica("bin/musica/menu_musica_fondo.mp3", true);
+	//ETSIDI::playMusica("bin/musica/menu_musica_fondo.mp3", true);
 }
 
 void CoordinadorEtsiDamas::mouse(int m_x, int m_y) {
@@ -33,6 +33,10 @@ void CoordinadorEtsiDamas::mouse(int m_x, int m_y) {
 	else if (CoordinadorEtsiDamas::state == VSCPU) {
 		MiTableroCPU.SelecFicha(m_x, m_y);
 		cout << "SelecFichaVSCPU" << endl;
+	}
+	else if (CoordinadorEtsiDamas::state == VSCPUARBOL) {
+		MiTableroCPUArbol.SelecFicha(m_x, m_y);
+		cout << "SelecFichaVSCPUArbol" << endl;
 	}
 }
 
@@ -317,6 +321,24 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		}
 		break;
 
+	case VSCPUARBOL:
+
+		glDisable(GL_LIGHTING);
+		MiTableroCPUArbol.DibujaTablero();
+		glEnable(GL_LIGHTING);
+		MiTableroCPUArbol.TexturaTablero();
+		MiTableroCPUArbol.inStateCPUArbol = true;
+
+		if (MiTableroCPUArbol.fin_de_juego()) {
+			state = FINCPU;
+			ETSIDI::setTextColor(255, 255, 0);
+			ETSIDI::setFont("bin/fuentes/Arcadepix Plus.ttf", 50);
+			ETSIDI::printxy("", 200.0, 400.0, 0.0);
+			ETSIDI::printxy("", 200.0, 400.0, 0.0);
+			MiTableroCPUArbol.inStateCPU = false;
+
+		}
+		break;
 
 	case SELINSTRUC:  //INSTRUCCIONES
 		dibujaTextura("bin/imagenes/Sel_Instruc.png");
