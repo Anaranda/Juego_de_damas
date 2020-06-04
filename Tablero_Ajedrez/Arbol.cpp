@@ -34,6 +34,7 @@ void Arbol::construir(int profundidad) {
 	int index = 0;
 	TableroJuego.inStateHUMAN = true;
 	TableroJuego.inPlayCPU = true;
+	bool hayFinDeJuego = false;
 
 	do{
 		
@@ -62,10 +63,6 @@ void Arbol::construir(int profundidad) {
 						//Si ha encontrado una ficha válidad que pase a realizar 
 						//una combinatoria de todas las posibles casilla de destino
 
-						//Depuración
-						if (i == 1 && j == 2 && k == 0 && l == 3) {
-							l = 3;
-						}
 						TableroJuego.SelecFicha(k * PX_X / M, l * PX_X / M);
 						if (aux->getInfo() != TableroJuego.GetListaFichas()) {
 
@@ -84,7 +81,14 @@ void Arbol::construir(int profundidad) {
 		
 		//ALGORITMO DE RECORRIDO DE NODOS
 
-		if (profundidad > 0) {
+		for (int i = 0; i < aux->getNumHijos(); i++) {
+			if (!aux->getHijo(i)->getInfo().buscar_lista_color(ROJO) ||
+				!aux->getHijo(i)->getInfo().buscar_lista_color(BLANCO)) {
+				hayFinDeJuego = true;
+				break;
+			}
+		}
+		if (profundidad > 0 && !hayFinDeJuego) {
 			if (nivel == profundidad) {
 				do {
 					index = buscarHijoIndice(aux);
@@ -100,12 +104,13 @@ void Arbol::construir(int profundidad) {
 				}
 			}
 			else {
+
 				aux = aux->getHijo(index);
 				nivel++;
 			}
 
 		}
-	} while (aux != raiz);
+	} while (aux != raiz && !hayFinDeJuego);
 }
 
 
@@ -122,10 +127,10 @@ ListaFichas Arbol::mejorJugada() {
 	do {
 		while (aux->getNumHijos() != 0) {//Este bucle llega hasta el hijo más lejano
 			aux = aux->getHijo(indice);//Salto de nodo en nodo
-			indice = 0;
 			nivel++;
 		}
 		aux = aux->getPadre();
+		nivel--;
 		for (int i = 0; i < aux->getNumHijos(); i++) {
 			aux = aux->getHijo(i);
 			nivel++;
@@ -150,6 +155,12 @@ ListaFichas Arbol::mejorJugada() {
 				aux = aux->getPadre();
 				nivel--;
 			} while ((indice == aux->getNumHijos()) && (aux != raiz));
+
+			if (aux->getNumHijos() > indice) {
+				aux = aux->getHijo(indice);
+				indice = 0;
+				nivel++;
+			}
 		}
 	} while (aux != raiz);
 	aux = mejorNodo;

@@ -20,7 +20,7 @@ CoordinadorEtsiDamas::~CoordinadorEtsiDamas()  //Destructor
 
 void CoordinadorEtsiDamas::musica()  //Función para controlar la música
 {
-	//ETSIDI::playMusica("bin/musica/menu_musica_fondo.mp3", true);
+	ETSIDI::playMusica("bin/musica/menu_musica_fondo.mp3", true);
 }
 
 void CoordinadorEtsiDamas::mouse(int m_x, int m_y) {
@@ -42,7 +42,6 @@ void CoordinadorEtsiDamas::mouse(int m_x, int m_y) {
 
 void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 {
-
 
 	if (state != INIJUEGO && state != VSCPU) {
 
@@ -245,16 +244,6 @@ void CoordinadorEtsiDamas::teclaEspecial(int key, int x, int y)
 	}
 }
 
-void CoordinadorEtsiDamas::tecla(unsigned char key)
-{
-	if (state == INIJUEGO || state == INSTRUC || state == ABOUT || state == INICIO) {
-		if (key == 27) {
-			exit(0);
-		}
-	}
-
-
-}
 
 void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos estados
 {
@@ -262,9 +251,7 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 	case INICIO: //Estado de INICIO
 		musica();
 		dibujaTextura("bin/imagenes/Inicio.png");
-		ETSIDI::setTextColor(1, 1, 1);
-		ETSIDI::setFont("bin/fuentes/Arcadepix_Plus.ttf", 24);
-		ETSIDI::printxy("PRESS RIGHT TO PLAY", 255, 400);
+		
 		break;
 
 
@@ -295,6 +282,7 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 	case SELVSCPU:  //MENU inicial del juego
 		dibujaTextura("bin/imagenes/Sel_Play_CPU.png");
 		MiTableroCPU.inStateCPU = false;
+		MiTableroCPUArbol.inStateCPUArbol = false;
 		break;
 	case SELEASY:
 		dibujaTextura("bin/imagenes/EasySelec.png");
@@ -330,12 +318,12 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		MiTableroCPUArbol.inStateCPUArbol = true;
 
 		if (MiTableroCPUArbol.fin_de_juego()) {
-			state = FINCPU;
+			state = FINCPUARBOL;
 			ETSIDI::setTextColor(255, 255, 0);
 			ETSIDI::setFont("bin/fuentes/Arcadepix Plus.ttf", 50);
 			ETSIDI::printxy("", 200.0, 400.0, 0.0);
 			ETSIDI::printxy("", 200.0, 400.0, 0.0);
-			MiTableroCPUArbol.inStateCPU = false;
+			MiTableroCPUArbol.inStateCPUArbol = false;
 
 		}
 		break;
@@ -373,8 +361,8 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		MiTablero.TexturaTablero();
 
 		MiTablero.cambio_estado_juego();
-		if(MiTablero.turno==ROJO)
-		MiTablero.cambio_turno();
+		if (MiTablero.turno == ROJO)
+			MiTablero.cambio_turno();
 
 
 
@@ -398,7 +386,7 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		//glDisable(GL_TEXTURE_2D);
 
 		cout << "Entramos en fin" << endl;
-		
+
 		//MiTablero.eliminar();
 		break;
 
@@ -416,10 +404,10 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		MiTableroCPU.TexturaTablero();
 
 		MiTableroCPU.cambio_estado_juego();
-		if(MiTableroCPU.turno==ROJO)
-		MiTableroCPU.cambio_turno();
+		if (MiTableroCPU.turno == ROJO)
+			MiTableroCPU.cambio_turno();
 
-	
+
 
 		//REVISA ESTO PARA QUE NO EMPIECEN LAS ROJAS 
 
@@ -439,8 +427,50 @@ void CoordinadorEtsiDamas::dibuja()  //Para dibujar en pantalla los distintos es
 		////glEnable(GL_LIGHTING);
 		//glEnd();
 		//glDisable(GL_TEXTURE_2D);
-		
+
 		cout << "Entramos en fin CPU" << endl;
+
+		//MiTablero.eliminar();
+		break;
+
+	case FINCPUARBOL:
+		dibujaTextura("bin/imagenes/FIN.png");
+		ETSIDI::play("bin/sonidos/pulsar_escape.wav");
+		state = SELVSCPU;
+		cout << "Cambia a SelVSCPU" << endl;
+		MiTableroCPUArbol.eliminar();
+		cout << "Elimina" << endl;
+		glDisable(GL_LIGHTING);
+		MiTableroCPUArbol.DibujaTablero();
+		glEnable(GL_LIGHTING);
+		MiTableroCPUArbol.TexturaTablero();
+
+		MiTableroCPUArbol.cambio_estado_juego();
+		if (MiTableroCPUArbol.turno == ROJO)
+			MiTableroCPUArbol.cambio_turno();
+
+
+
+		//REVISA ESTO PARA QUE NO EMPIECEN LAS ROJAS 
+
+		//AHORA QUE LO PIENSO DEPENDE DE QUIEN GANE LA PARTIDA ASI QUE HAY QUE CAMBIAR EL TURNO EN SELECFICHA O PONER UN IF
+		//PONER UN TEXTO SOBRE EL TABLERO QUE NOS PIDA PULSAR UNA TECLA PARA PASAR A SELINIJUEGO Y ECHAR OTRA PARTIDA O LO QUE QUIERAS
+
+
+		//glEnable(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/IniAbout.png").id);
+		//glDisable(GL_LIGHTING);
+		//glBegin(GL_POLYGON);
+		//glColor3f(1, 1, 1);
+		//glTexCoord2d(0, 1); glVertex2d(0, 0);
+		//glTexCoord2d(1, 1); glVertex2d(800, 0);
+		//glTexCoord2d(1, 0); glVertex2d(800, 800);
+		//glTexCoord2d(0, 0); glVertex2d(0, 800);
+		////glEnable(GL_LIGHTING);
+		//glEnd();
+		//glDisable(GL_TEXTURE_2D);
+
+		cout << "Entramos en fin CPUARBOL" << endl;
 
 		//MiTablero.eliminar();
 		break;
