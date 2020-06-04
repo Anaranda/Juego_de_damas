@@ -2,12 +2,8 @@
 #include "Tablero.h"
 #include "ListaFichas.h"
 
-
-extern bool menu;
-
 class CoordinadorEtsiDamas
 {
-
 public:
 	//Métodos
 	CoordinadorEtsiDamas();
@@ -26,7 +22,7 @@ public:
 	State state;  //Se define una variable del tipo de la enumeración anterior
 
 protected:
-	//Miembros
+	//Miembros. Un tablero por cada modo de juego
 	Tablero MiTablero;
 	Tablero MiTableroCPU;
 	Tablero MiTableroCPUArbol;

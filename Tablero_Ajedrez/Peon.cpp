@@ -16,7 +16,7 @@ Peon::~Peon()
 
 void Peon::Mueve()
 {
-	//Aqui llamamos a la funcion mueve de las fichas
+	
 }
 
 void Peon::SetColor(Color col)

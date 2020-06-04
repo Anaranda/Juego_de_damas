@@ -23,6 +23,5 @@ void Mouse::SetIndices(int button, int state, int mouseX, int mouseY)
 	{
 		indices[1]= trunc(mouseX / (PX_X / M)); // el eje x corresponde con el indice j (COLUMNAS)
 		indices[0] = trunc(mouseY / (PX_Y / M)); //el eje y corresponde con el indice i (FILAS)
-		cout <<"("<< indices[0] <<","<< indices[1] <<")"<< endl;
 	}
 }

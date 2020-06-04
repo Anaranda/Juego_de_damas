@@ -1,5 +1,6 @@
 #include "Nodo.h"
-#include "tablero.h"
+#include "Tablero.h"
+
 class Arbol {
 private:
 	Nodo* raiz;
@@ -11,8 +12,6 @@ public:
 	void construir(int profundidad);
 	void destruir();
 	ListaFichas mejorJugada();
-
-	//void cambiarRaiz(int hijo);
 
 	Nodo* getHijo(Nodo* nodo, int hijo);
 	int buscarHijoIndice(Nodo* nodo);

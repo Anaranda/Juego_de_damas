@@ -1,5 +1,5 @@
 #include "Arbol.h"
-#define HIJOS 3
+
 Arbol::Arbol() {
 	raiz = new Nodo;
 }

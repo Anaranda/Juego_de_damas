@@ -14,10 +14,7 @@ public:
 	//virtual ~ListaFichas;
 	bool agregar(Ficha* p);
 
-	//bool agregar(Peon* p);
-	//bool agregar(Dama* p);
 	void dibuja();
-	//void mueve();
 	void inicializa();
 	void copiaDesde(ListaFichas);
 	void eliminar_fichas();
@@ -25,7 +22,6 @@ public:
 
 	bool buscar_lista_color(Color color);
 
-	//NUEVO2//////////////
 	void eliminar(int x, int y);
 	Ficha* convertir_a_dama(int x, int y);
 	bool posible_comida(Color turno);
@@ -40,6 +36,7 @@ public:
 	bool operator!=(ListaFichas);
 	int getNumFichas();
 	float ratioFichas();
+
 private:
 	Ficha* lista_fichas[MAX_FICHAS];
 	Ficha* fichasConPosibleComida[MAX_COMIDA];

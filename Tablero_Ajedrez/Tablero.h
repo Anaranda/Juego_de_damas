@@ -1,7 +1,6 @@
 #pragma once
 #include "ListaFichas.h"
 #include "Ficha.h"
-#include <stdio.h>
 #include "Mouse.h"
 #include "ETSIDI.h"
 
@@ -25,7 +24,7 @@ public:
 	bool inStateCPU = false;
 	bool inStateCPUArbol = false;
 	bool inPlayCPU = false;
-	//NUEVO/////////////////////////////////
+	
 	Color turno=BLANCO; // es el del color de ficha, en este caso solo podrá ser o ROJO o BLANCO
 	Ficha* ficha_Selec = NULL;
 	Ficha* ficha_Selec_2 = NULL;
@@ -36,27 +35,20 @@ public:
 	Estado estado;
 	//////////////////////////////////////////////
 
-	/*enum Turno { blancas, rojas };
-	Turno turno;
-	bool seleccionada;
-	int pos[2];
-	int pos_verde[2];*/
 	Tablero();
-	//void dibuja();
+
 	void Inicializa();
 	void SetListaFichas(ListaFichas);
 	ListaFichas GetListaFichas();
 	void DibujaTablero();
 	void TexturaTablero();
-	/*int GetX();
-	int GetY();*/
 	void SelecFicha(int mouseX, int mouseY);
 	bool reglaCasillaNegra(int i, int j);
 	
 
 	//NUEVO////////////////
 	void paso_a_indices(int mouseX, int mouseY, int* indices);
-	bool ficha_mia(Ficha* ficha); //en un principio no le paso el color porque el turno corresponde con el color de tu ficha;
+	bool ficha_mia(Ficha* ficha); 
 	void cambio_turno();
 	void cambio_estado();
 	bool dentro_de_tablero(int i, int j);
@@ -71,6 +63,5 @@ public:
 	bool fin_de_juego();
 	void eliminar();
 	void cambio_estado_juego();
-	
 };
 

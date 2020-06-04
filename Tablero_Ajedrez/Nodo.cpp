@@ -1,11 +1,10 @@
 #include "Nodo.h"
 #include <iostream>
+
 Nodo::Nodo() {
 	nhijos = 0;
 	padre = 0;
-
 }
-
 
 Nodo* Nodo::agregarHijo() {
 	this->hijo.push_back(new Nodo);

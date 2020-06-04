@@ -14,11 +14,6 @@ protected:
 
 public:
 
-	//Puede que estas funciones get and set sean inncesarias pero las he puesto por si acaso
-	/*Estado GetEstado();
-	void SetEstado(Estado est);
-	Tipo GetTipo();
-	void SetTipo(Tipo tip);*/
 	virtual Tipo GetTipo() = 0;
 	virtual Color GetColor()=0;
 	virtual void SetColor(Color col);

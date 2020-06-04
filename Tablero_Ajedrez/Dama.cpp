@@ -1,5 +1,6 @@
 #include "Dama.h"
 #include "ETSIDI.h"
+
 #define M 8
 #define PX_X  800
 #define PX_Y  800
@@ -66,7 +67,7 @@ void Dama::Dibuja()
 	{
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/DamaRoja.png").id);//Pinta de color rojo la ficha (ROJO=0)
 	}
-	else if (color == VERDE) //color de cuando lo seleccionas
+	else if (color == VERDE)
 	{
 		glBindTexture(GL_TEXTURE_2D, ETSIDI::getTexture("bin/imagenes/DamaElegida.png").id);
 	}

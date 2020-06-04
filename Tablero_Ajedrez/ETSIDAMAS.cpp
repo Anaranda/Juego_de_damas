@@ -1,9 +1,19 @@
+//@2020 by  DREAM TEAM. Copyright by
+
+//Ana Aranda
+//Alexander Amani
+//Teresa Alves 
+//Alejandro López 
+//Jorge Meneu
+
+//All rights reserved.
+
 #include "Coordinador.h"
 #include <iostream>
 #include <math.h>
 #include <iomanip>
 #include <cmath>
-#include<ETSIDI.h>
+#include <ETSIDI.h>
 
 
 #include"Ficha.h"
@@ -16,10 +26,9 @@
 #define PX_Y  800
 
 CoordinadorEtsiDamas EtsiDamas;
-//Tablero MiTablero;
 
-void OnDraw(void); //esta funcion sera llamada para dibujar
-void OnTimer(int value); //esta funcion sera llamada cuando transcurra una temporizacion
+void OnDraw(void); 
+void OnTimer(int value); 
 void OnSpecialKeyboardDown(int key, int x, int y);
 void OnMouseEvent(int button, int state, int m_x, int m_y);
 void resize(int width, int height);
@@ -35,7 +44,6 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(PX_X, PX_Y);
 	glutCreateWindow("DRAUGHTS");
 
-	//habilitar luces y definir perspectiva
 	glClearColor(0, 0, 0, 0);
 	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0, PX_X, 0, PX_Y);
@@ -46,7 +54,7 @@ int main(int argc, char* argv[])
 	glMatrixMode(GL_MODELVIEW);
 
 	glutDisplayFunc(OnDraw);
-	glutTimerFunc(25, OnTimer, 0);//le decimos que dentro de 25ms llame 1 vez a la funcion OnTimer()
+	glutTimerFunc(25, OnTimer, 0);
 	
 	glutSpecialFunc(OnSpecialKeyboardDown);
 	glutMouseFunc(OnMouseEvent);
@@ -63,12 +71,9 @@ void OnDraw(void)
 	//Borrado de la pantalla	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-
-	//aqui es donde hay que poner el código de dibujo
 	
 	EtsiDamas.dibuja();
 
-	//no borrar esta linea ni poner nada despues
 	glutSwapBuffers();
 }
 
@@ -82,7 +87,6 @@ void OnMouseEvent(int button, int state, int m_x, int m_y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		EtsiDamas.mouse(m_x, m_y);
-		cout << m_x << m_y << endl;
 	}
 }
 
@@ -92,7 +96,7 @@ void resize(int width, int height)
 	glutPostRedisplay();
 }
 
-void OnSpecialKeyboardDown(int key, int x, int y)  //Funciones para teclas especiales 
+void OnSpecialKeyboardDown(int key, int x, int y)  //Función para teclas especiales 
 {
 	EtsiDamas.teclaEspecial(key, x, y);
 	glutPostRedisplay();
